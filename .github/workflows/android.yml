@@ -1,0 +1,76 @@
+name: Application Android
+
+# Même recette que les autres applis : le robot construit l'appli, la signe et la publie
+# dans les « Releases ». L'appli lit version.json et propose « Nouvelle mise à jour ! ».
+on:
+  push:
+    branches: [main]
+    paths: ["app/**", "voix/**", "tools/**", "android-ressources/**", "capacitor.config.json", "package.json", ".github/workflows/android.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Préparer la page
+        run: |
+          node tools/build.mjs
+          ls -la www
+      - name: Préparer le projet Android
+        run: |
+          npm install --save --no-audit --no-fund @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7 @capacitor-community/text-to-speech@6 @capacitor-community/speech-recognition@7 @capacitor/app@7 @capacitor/share@7
+          npx cap add android
+          pip install pillow
+          python android-ressources/remplacer.py
+          VERSION=$(node -p "require('./version.json').version")
+          sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"$VERSION\"/" android/app/build.gradle
+          npx cap sync android
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q ACCESS_NETWORK_STATE $M || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />#' $M
+          # le micro : le Père Noël écoute les réponses de l'enfant
+          grep -q RECORD_AUDIO $M || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />#' $M
+          # la reconnaissance vocale a besoin de voir le service de Google
+          grep -q RecognitionService $M || sed -i 's#</manifest>#    <queries>\n        <intent>\n            <action android:name="android.speech.RecognitionService" />\n        </intent>\n    </queries>\n</manifest>#' $M
+          echo "Modules du téléphone inclus :"; cat android/app/src/main/assets/capacitor.plugins.json
+          grep -q TextToSpeech android/app/src/main/assets/capacitor.plugins.json
+          grep -q SpeechRecognition android/app/src/main/assets/capacitor.plugins.json
+      - name: Compiler
+        run: cd android && ./gradlew assembleRelease --no-daemon -q
+      - name: Signer
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          BT=$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)
+          APK=android/app/build/outputs/apk/release/app-release-unsigned.apk
+          $ANDROID_HOME/build-tools/$BT/zipalign -f -p 4 $APK aligne.apk
+          test -n "$KEYSTORE_BASE64" && test -n "$KEYSTORE_PASSWORD" || { echo "::error::Secrets KEYSTORE_BASE64 / KEYSTORE_PASSWORD manquants (Settings > Secrets and variables > Actions)"; exit 1; }
+          echo "$KEYSTORE_BASE64" | tr -d '[:space:]' | base64 -d > "$RUNNER_TEMP/cle.jks" || { echo "::error::La clé collée n'est pas du base64 valide"; exit 1; }
+          keytool -list -keystore "$RUNNER_TEMP/cle.jks" -storepass "$KEYSTORE_PASSWORD" > /dev/null 2>&1 || { echo "::error::La clé ne s'ouvre pas avec ce mot de passe"; exit 1; }
+          $ANDROID_HOME/build-tools/$BT/apksigner sign --ks "$RUNNER_TEMP/cle.jks" --ks-pass env:KEYSTORE_PASSWORD --key-pass env:KEYSTORE_PASSWORD --out pere-noel.apk aligne.apk
+          rm -f "$RUNNER_TEMP/cle.jks"
+          ls -la pere-noel.apk
+      - name: Publier
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION=$(node -p "require('./version.json').version")
+          gh release create "android-${{ github.run_number }}" pere-noel.apk \
+            --title "Le Père Noël veut savoir, version $VERSION" \
+            --notes "Ouvrir pere-noel.apk sur le téléphone Android et toucher Installer. L'application marche sans Internet (sauf pour les mises à jour et les magasins). Les mises à jour suivantes sont proposées dans l'application." \
+            --latest

@@ -1,0 +1,7 @@
+{
+  "appId": "app.perenoel.veutsavoir",
+  "appName": "Le Père Noël veut savoir",
+  "webDir": "www",
+  "backgroundColor": "#2b1410",
+  "android": { "allowMixedContent": false }
+}

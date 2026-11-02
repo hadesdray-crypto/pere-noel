@@ -1,0 +1,8 @@
+{
+  "name": "pere-noel",
+  "version": "2.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Le Père Noël veut savoir : le Père Noël pose des questions à l'enfant et trouve son cadeau.",
+  "scripts": { "build": "node tools/build.mjs" }
+}
