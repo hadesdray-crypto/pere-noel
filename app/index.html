@@ -2841,7 +2841,7 @@ async function begin(again){if(store.get('list',[]).length>=10){toast('Ta liste 
   setLine('santa',intro);await say('santa',intro);if(!running)return;await sleep(300);turn()}
 /* Mère Noël : elle passe de temps en temps voir si tout va bien */
 /* =====================  LA MÈRE NOËL  ===================== */
-const MRS_Y=1198,MRS_STAND=430;let mrsBusy=false,nextMrs=performance.now()+20000;
+const MRS_Y=1198,MRS_STAND=720;let mrsBusy=false,nextMrs=performance.now()+20000;
 async function mrsArrive(){const m=MRS;mrsBusy=true;if(m.st==='off'){m.st='on';m.x=WW+150;m.y=MRS_Y;m.tx=m.x;RM.show('plateau',false);mrsEl.classList.remove('hug','read')}await mrsGo(MRS_STAND)}
 async function mrsHug(){mrsBusy=true;await mrsArrive();mrsEl.classList.add('hug');santaEl.classList.add('hugged');const c=toClient(330,SANTA.y-1.5*PXM(SANTA.y));sparkle(c[0],c[1],['❤️','💕','💗'],10);tone(784,0,.5,'triangle',.07);tone(988,.15,.6,'triangle',.07);await sleep(900);
   await say('mrs',pick(['Un petit câlin, mon chéri.','Tu fais du si beau travail.','Je suis fière de toi.']),{bubble:true});await say('santa',pick(['Merci, ma chérie.','Moi aussi, ma chérie.']),{bubble:true});
