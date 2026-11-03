@@ -1,7 +1,7 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.nmbig{margin:8px auto 2px;padding:10px 16px;max-width:90%;text-align:center;font-size:2.4rem;font-weight:900;letter-spacing:.04em;color:#8a1f1b;background:#fff;border:4px dashed #f3c75a;border-radius:18px;text-transform:uppercase;animation:ebin .3s ease-out}
 body.tiny #btns .btn[data-a=py],body.tiny #btns .btn[data-a=pn]{display:none}
 .ansb{display:inline-block;margin-top:4px;padding:3px 10px;border-radius:999px;font-weight:800;background:#fff3cf;border:2px solid #f3c75a;color:#5a3418}.ansb.yes{background:#dff5e3;border-color:#1f7a3b}.ansb.no{background:#fde2df;border-color:#8a1f1b}
-.sim i{max-height:none!important;overflow:visible!important;font-size:.7rem!important}.nmbig{font-size:clamp(1.3rem,8vw,2.4rem)!important;word-break:break-word;line-height:1.05;max-width:94%!important}#panel{overflow-y:auto}#top h1{font-size:min(1.05rem,4.8vw)!important;line-height:1.1}#top{gap:4px}.ib{width:min(44px,11vw);height:min(44px,11vw);min-width:40px;min-height:40px;font-size:min(1.25rem,5.5vw)}#panel #say p{font-size:min(1.25rem,5.4vmin)}#panel .btn{font-size:min(1rem,4.6vmin)}#card{left:auto!important;right:2%!important;top:2%!important;width:min(52%,300px)!important;transform:none!important}#card .face{padding:7px}#card h2{font-size:min(1.15rem,4.4vmin)!important;margin:2px 0!important}#card p{font-size:min(.85rem,3.3vmin)!important;margin:2px 0!important}#card .pic{font-size:min(2.4rem,9vmin)!important}#card small{font-size:min(.75rem,3vmin)!important}.sim>span{font-size:min(.72rem,3vmin)!important}#toast{z-index:900!important}.dlg-foot button:disabled{opacity:.45}#dTabs{position:sticky;top:0;z-index:3;background:#fff4dc;padding:4px 0}</style></head><body>
+.sim i{max-height:none!important;overflow:visible!important;font-size:.7rem!important}.nmbig{font-size:clamp(1.3rem,8vw,2.4rem)!important;word-break:break-word;line-height:1.05;max-width:94%!important}#panel{overflow-y:auto}#top h1{font-size:min(1.05rem,4.8vw)!important;line-height:1.1}#top{gap:4px}.ib{width:min(44px,11vw);height:min(44px,11vw);min-width:40px;min-height:40px;font-size:min(1.25rem,5.5vw)}#panel #say p{font-size:min(1.25rem,5.4vmin)}#panel .btn{font-size:min(1rem,4.6vmin)}#card{left:auto!important;right:2%!important;top:2%!important;width:min(52%,300px)!important;transform:none!important}#card .face{padding:7px}#card h2{font-size:min(1.15rem,4.4vmin)!important;margin:2px 0!important}#card p{font-size:min(.85rem,3.3vmin)!important;margin:2px 0!important}#card .pic{font-size:min(2.4rem,9vmin)!important}#card small{font-size:min(.75rem,3vmin)!important}.sim>span{font-size:min(.72rem,3vmin)!important}#toast{z-index:900!important}#ages .chip{min-width:44px;min-height:44px}.dlg-foot button:disabled{opacity:.45}#dTabs{position:sticky;top:0;z-index:3;background:#fff4dc;padding:4px 0}</style></head><body>
 <meta name="theme-color" content="#2b1410">
 <title>Le Père Noël veut savoir</title>
 <script id="pn-loader">
@@ -1014,7 +1014,7 @@ async function reject(t){$('#card').hidden=true;
   G.minN=G.n+1;
   if(G.props>=4)return showIdeas();
   say('santa',pick([NM('Ah, ce n’est pas tout à fait cela, {n} ? Ne t’inquiète pas, je continue de chercher.','Ah, ce n’est pas tout à fait cela ? Ne t’inquiète pas, je continue de chercher.'),'Hmm. Je vais chercher mieux.','Pas de problème. On continue.']),{bubble:true});await sleep(900);turn()}
-function showIdeas(){running=true;$('#card').hidden=true;const L=alive().sort((a,b)=>b.w-a.w).slice(0,6);
+function showIdeas(){running=true;$('#card').hidden=true;const L=alive().sort((a,b)=>b.w-a.w).slice(0,innerHeight<700?4:6);
   if(!L.length){setLine('santa','Mes lutins n’ont plus d’idée ! Veux-tu recommencer ?');$('#btns').innerHTML=`<button class="btn go" id="again">🔁 Recommencer</button><button class="btn" id="ot">✍️ Autre chose</button>`;$('#again').onclick=()=>showSetup(true);$('#ot').onclick=customGift;return}
   $('#say').innerHTML=`<div class="who">Père Noël</div><p>Regarde ce que Mère Noël a trouvé. Touche celui que tu préfères !</p>`;
   $('#btns').innerHTML=L.map(x=>`<button class="btn wide soft" data-i="${x.t.i}">${x.t.e} ${esc(x.t.n)}</button>`).join('')+`<button class="btn" id="ot">✍️ Autre chose</button><button class="btn" id="again">🔁 Recommencer</button>`;
@@ -1151,10 +1151,10 @@ function askAge(){const q=NM('Dis-moi, {n}, quel âge as-tu ?','Dis-moi, quel â
     $('#ages').querySelectorAll('.chip').forEach(x=>x.disabled=true);await say('santa',line,{keep:true});begin(false)});
   (async()=>{await say('santa',q,{keep:true});
     for(let tries=0;tries<2;tries++){if(!$('#ages'))return;const a=await voiceListen(parseAge,{hint:'Dis ton âge'});if(!a||!$('#ages'))return;
-      setLine('santa','Tu as '+a+' ans, c’est bien cela ?');await say('santa','Tu as '+a+' ans, c’est bien cela ?',{keep:true});if(!$('#ages'))return;
+      {const pp=$('#say p');if(pp)pp.textContent='Tu as '+a+' ans, c’est bien cela ?'}await say('santa','Tu as '+a+' ans, c’est bien cela ?',{keep:true});if(!$('#ages'))return;
       const c=await voiceListen(parseYN,{hint:'Dis : oui, ou non'});if(!$('#ages'))return;
       if(c==='yes'||c==='py'){const ch=$('#ages .chip[data-a="'+a+'"]');if(ch)ch.click();return}
-      if(!c)return;setLine('santa','Pardon. Redis-moi ton âge.');await say('santa','Pardon. Redis-moi ton âge.',{keep:true})}})()}
+      if(!c)return;{const pp=$('#say p');if(pp)pp.textContent='Pardon. Redis-moi ton âge.'}await say('santa','Pardon. Redis-moi ton âge.',{keep:true})}})()}
 async function begin(again){ac();document.body.classList.toggle('tiny',!!prefs.age&&prefs.age<=5);running=true;newGame();$('#btns').innerHTML='';
   if(!quiet){calmElves();await sleep(600);if(!running)return}
   let intro;
@@ -1300,6 +1300,7 @@ function micAvailable(){return !!(SR||nativeSR())}
 const NUM={un:1,une:1,deux:2,trois:3,quatre:4,cinq:5,six:6,sept:7,huit:8,neuf:9,dix:10,onze:11,douze:12,treize:13,quatorze:14,quinze:15,seize:16};
 function yn1(t){t=(t||'').toLowerCase().replace(/[’]/g,"'");
  if(/je (ne )?sais pas|chais pas|sais pas|aucune id[ée]e|sais plus/.test(t))return 'dk';
+ if(/c'est pas|pas [çc]a/.test(t))return 'no';
  if(/plut[oô]t non|pas tout [àa] fait|pas trop|pas vraiment|bof|pas beaucoup|un peu non|moyen/.test(t))return 'pn';
  if(/plut[oô]t oui|un peu|peut[- ]?[eê]tre|pourquoi pas|assez|si on veut/.test(t))return 'py';
  const neg=/\b(non|nan|nope|jamais|pas du tout|j'aime pas|je n'aime pas|je veux pas|pas envie|beurk|berk|nul|nulle|bof)\b/.test(t);
@@ -1334,7 +1335,7 @@ async function voiceListen(parse,o){o=o||{};if(!voiceInOn())return null;const my
     else{await say('santa','Je n’entends pas bien. C’est mieux que tu m’aides : touche un bouton, s’il te plaît.',{bubble:true});return null}
     if(my!==vlTok)return null}
   return null}
-document.addEventListener('pointerdown',e=>{if(e.target.closest&&e.target.closest('#btns button,#ages,#card,#panel button'))cancelListen()},true);
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#btns button,#ages,#card,#panel button'))cancelListen()},true);
 async function listen(){const b=$('#mic');if(b){b.textContent='🎤 Je t’écoute…';b.disabled=true}
   const text=await dictate();if(/(bonjour|salut|coucou|bonsoir|hello)/i.test(String(text||'')))elvesHello();const a=parseYN(text);if(a)answer(a);else{say('santa','Je n’ai pas bien entendu. Tu peux toucher un bouton !',{bubble:true});if(b){b.textContent='🎤 Répondre avec la voix';b.disabled=false}}}
 
