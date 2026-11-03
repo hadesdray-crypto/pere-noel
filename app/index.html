@@ -816,8 +816,8 @@ function finishMess(){const m=mess;mess=null;m.el.remove();
 const elves=[];let quiet=false;const ELF_BY={};
 /* zone libre où l'on peut courir (pas collé au Père Noël) */
 /* zones où l'on peut courir : jamais collé au Père Noël, jamais dans les meubles */
-const ZONES=[[470,900,1150,1205],[600,1050,1080,1150],[620,1050,1085,1150],[480,900,1140,1195]];
-const BLOCK=[[600,740,1100,1125],[40,450,1100,1400],[1030,1152,1180,1240],[920,1040,1165,1200],[480,610,1088,1106],[700,920,1118,1146],[880,1030,1080,1122]];
+const ZONES=[[480,1000,1170,1270],[520,1060,1175,1255],[560,1020,1180,1280],[480,900,1170,1230]];
+const BLOCK=[[600,740,1100,1125],[40,450,1100,1400],[1000,1152,1160,1320],[920,1040,1165,1200],[480,610,1088,1106],[700,920,1118,1146],[880,1030,1080,1122]];
 const FREE=(z)=>{const Z=ZONES[z||0];for(let i=0;i<40;i++){const x=rand(Z[0],Z[1]),y=rand(Z[2],Z[3]);if(!BLOCK.some(b=>x>b[0]&&x<b[1]&&y>b[2]&&y<b[3])&&!(y>1140&&y<1160&&x>600&&x<800))return [x,y]}return [760,1185]};
 const JOBS=[
  {k:'loader',x:500,y:1046,dir:1,anim:'',tool:'marteau'},
@@ -826,15 +826,12 @@ const JOBS=[
  {k:'bench2',x:415,y:1039,dir:-1,anim:'hammer',tool:'scie'},
  {k:'vice',x:548,y:1086,dir:1,anim:'hammer',tool:'marteau'},
  {k:'wrap',x:775,y:1118,dir:1,anim:'hammer',tool:''},
- {k:'wrap2',x:860,y:1120,dir:-1,anim:'hammer',tool:''},
- {k:'paint',x:640,y:1114,dir:1,anim:'hammer',tool:'pinceau'},
+  {k:'paint',x:640,y:1114,dir:1,anim:'hammer',tool:'pinceau'},
  {k:'tree',x:890,y:1078,dir:1,anim:'wave',tool:'',prop:'cane'},
  {k:'carryA',mobile:1,tool:''},
  {k:'carryB',mobile:1,tool:''},
  {k:'cart',mobile:1,tool:''},
  {k:'run',mobile:1,tool:'',prop:'gift',z:1},
- {k:'run',mobile:1,tool:'',z:2},
- {k:'run',mobile:1,tool:'',z:3},
  {k:'sweep',mobile:1,tool:'balai',z:0}];
 function makeElves(){JOBS.forEach((j,i)=>{const el=document.createElement('div');el.className='elf';
   el.innerHTML='<div class="eb">'+elfSVG(HATS[i%6],BODIES[(i*5+2)%6],j.prop||'',j.tool||'')+'<img class="carry" alt=""></div><div class="stars">✨⭐✨</div>';
