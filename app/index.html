@@ -798,7 +798,7 @@ function hat(){
    <path d="M300,${r1(T(300)+12)} Q380,${r1(T(380)+16)} 460,${r1(T(460)+12)} M284,${r1(T(284)+24)} Q300,${r1(T(300)+30)} 320,${r1(T(320)+27)} M440,${r1(T(440)+28)} Q462,${r1(T(462)+30)} 478,${r1(T(478)+22)}" fill="none" stroke="${FUR_S}" stroke-width="4.5" stroke-linecap="round"/>`;
   /* pompom rond et duveteux */
   s+=`<path d="${cloudEll(546,322,38,36,14,8)}" fill="url(#pg)" ${st(SW)}/><path d="M524,336 Q546,356 572,338" fill="none" stroke="${FUR_S}" stroke-width="5" stroke-linecap="round"/><path d="M522,310 Q530,296 546,293" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/><path d="M552,312 q8,6 4,16 M534,324 q-2,8 4,12" fill="none" stroke="${FUR_S}" stroke-width="3.5" stroke-linecap="round"/>`;
-  return piece('c-santa-bonnet',236,120,600,400,`<g transform="translate(0 ${HY})">${s}</g>`,defs);
+  return piece('c-santa-bonnet',236,120,600,412,`<g transform="translate(0 ${HY})">${s}</g>`,defs);
 }
 
 /* ===== construction des pièces (au chargement : le harnais fabrique IMG avant d'appeler defSantaC) ===== */
@@ -806,7 +806,7 @@ const pBack=chairBack(),pTh=thighs(),pGil=gilet(),pCol=collar(),pHead=head(),pHa
 const mk=(nm,fn,box)=>({g:sidePiece(nm+'-g',box,fn,1),d:sidePiece(nm+'-d',box,fn,-1)});
 const pChA=mk('c-santa-fauteuil-av',chairFront,[40,620,260,1000]);
 const pUp=mk('c-santa-bras',upperArm,[156,430,316,700]);
-const pFo=mk('c-santa-avbras',foreArm,[176,620,316,870]);
+const pFo=mk('c-santa-avbras',foreArm,[176,586,316,886]); /* y0=586 : le haut du manchon (cercle du coude, rayon 46+trait) dépasse de 49 px au-dessus du coude (y=645) — avant, la boîte à 620 le tronquait net */
 const pSh=mk('c-santa-jambe',shin,[170,830,380,1000]);
 const pEy={};for(const k of ['f','m','g'])for(const s of ['g','d'])pEy[k+s]=eyesOverlay(k,s);
 
@@ -846,7 +846,10 @@ window.defSantaC=function(R,IMG){
   put('fauteuil-av-g',pChA.g,[130,990],rel([130,990],BASE),'base',{z:5});
   put('fauteuil-av-d',pChA.d,[MIR(130),990],rel([MIR(130),990],BASE),'base',{z:5});
   R.armTo=(s,H,bend)=>{const Sh=R.SH[s];const sg=s==='g'?1:-1;const E=ik2([Sh.x,Sh.y],H,L1,L2,bend??sg);
-    R.set('bras-'+s,{r:angDown([Sh.x,Sh.y],E)});R.set('avbras-'+s,{x:E[0],y:E[1],r:angDown(E,H)})};
+    R.set('bras-'+s,{r:angDown([Sh.x,Sh.y],E)});R.set('avbras-'+s,{x:E[0],y:E[1],r:angDown(E,H)});
+    /* profondeur : quand la main monte vers le visage, le bras ENTIER (bras + avant-bras) passe devant la tête ; sinon l'épaule/le haut du bras reste derrière la tête et l'avant-bras semble flotter, détaché du corps */
+    const up=H[1]<R.bones.tete.y+8&&Math.abs(H[0])<250;
+    R.bones['bras-'+s].node.style.zIndex=up?7:2;R.bones['avbras-'+s].node.style.zIndex=up?8:3};
   R.armTo('g',[R.KNEE.g.x,R.KNEE.g.y]);R.armTo('d',[R.KNEE.d.x,R.KNEE.d.y]);
 };
 })();
@@ -2645,7 +2648,7 @@ function stepSanta(t,dt){const c=santaEl.classList,talk=c.contains('talk'),laugh
   SA.hand[0]+=(td[0]-SA.hand[0]||0)*Math.min(1,dt*6);SA.hand[1]+=(td[1]-SA.hand[1]||0)*Math.min(1,dt*6);
   if(!SA.init){SA.hand=[...kd];SA.init=1}
   RS.armTo('g',kg);RS.armTo('d',SA.hand);
-  if(front!==SA.handZ){SA.handZ=front;RS.bones['avbras-d'].node.style.zIndex=front?8:3}}
+  SA.handZ=front}
 
 /* ----- la Mère Noël ----- */
 const RM=rigEnt('mrs',760,1000,prefs.style==='c'?defMrsC:defMrs);const mrsEl=RM.root;RM.root.setAttribute('aria-label','Mère Noël');
