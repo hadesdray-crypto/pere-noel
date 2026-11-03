@@ -2718,14 +2718,11 @@ async function crashScene(){if(CR.done||!IMG['c-hole'])return;CR.done=true;CR.on
   tone(90,0,.4,'sawtooth',.22);tone(60,.04,.45,'square',.16);tone(140,.1,.3,'sawtooth',.12);[1500,1900,1700].forEach((f,i)=>tone(f,.25+i*.09,.12,'triangle',.06));
   try{$('#stage').animate([{transform:'translate(0,0)'},{transform:'translate(-7px,4px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(0,0)'}],{duration:520})}catch(e){}
   elves.forEach(e=>{if(e.gone||e.st==='held'||e.st==='drop')return;e.gawk=rand(1,1.6);setCls(e,'gawk',true)});
-  await sleep(900);
+  await sleep(500);
   const near=elves.filter(e=>!e.gone&&e.mobile&&e.st!=='held'&&e.st!=='drop').sort((a,b)=>Math.hypot(a.x-CRX,a.y-1055)-Math.hypot(b.x-CRX,b.y-1055));
-  const w=['Pardon, Père Noël !','Oh là là, le mur !'];near.slice(0,2).forEach((e,i)=>setTimeout(()=>elfSay(e,w[i],true),200+i*500));
-  /* 2. le traîneau repart, penaud */
-  await sleep(1100);
-  [sl,dh].forEach(el=>{el.animate([{opacity:1},{opacity:0}],{duration:600,fill:'forwards'});setTimeout(()=>el.remove(),700)});
-  tone(1500,0,.1,'triangle',.05);tone(1200,.12,.1,'triangle',.05);
-  /* 3. le Père Noël râle une seconde, puis il continue les questions */
+  const w=['Pardon, Père Noël !','Oh là là, le mur !'];near.slice(0,2).forEach((e,i)=>setTimeout(()=>elfSay(e,w[i],true),200+i*2300));
+  /* le traîneau repart, penaud, pendant que le Père Noël râle une seconde puis continue les questions */
+  setTimeout(()=>{[sl,dh].forEach(el=>{el.animate([{opacity:1},{opacity:0}],{duration:600,fill:'forwards'});setTimeout(()=>el.remove(),700)});tone(1500,0,.1,'triangle',.05);tone(1200,.12,.1,'triangle',.05)},1700);
   const g=pick(['Oh là là ! Mon mur ! Rodolphe, doucement !','Mon mur ! Bon… lutins, réparez-moi ça !']);setLine('santa',g);await say('santa',g,{keep:true});
   near.slice(0,3).forEach((e,i)=>{e.task={k:'fix',off:[0,-55,55][i]};if(e.carry)dropCarry(e);CR.els['t'+i]=e});
   clearInterval(CR.tm);CR.tm=setInterval(crTick,500)}
@@ -3016,7 +3013,7 @@ async function intro(){running=false;G=null;$('#card').hidden=true;forgetChild()
   $('#btns').innerHTML='';setTimeout(hoho,200);
   elvesHello();
   /* clin d'œil du début : le « Père Noël » est un robot chercheur de cadeaux qui se trahit… avant de reprendre son rôle */
-  const gag=(store.get('gag',0)||0)<3;if(gag){store.set('gag',(store.get('gag',0)||0)+1);
+  const gag=!window.__gagDone&&(store.get('gag',0)||0)<3;window.__gagDone=1;if(gag){store.set('gag',(store.get('gag',0)||0)+1);
     for(const l of ['Bip, bip… Robot chercheur de cadeaux, en service.','Oups ! La boulette !']){tone(660,0,.12,'square',.05);tone(880,.16,.12,'square',.05);setLine('santa',l);await say('santa',l,{keep:true});if(tok!==introTok)return;await sleep(300)}}
   const lines=[gag?'Ho ho ho ! Je veux dire… Bonjour, mon enfant. Viens près de moi !':'Ho ho ho ! Bonjour, mon enfant. Viens près de moi !','Je suis le Père Noël. Ici, c’est mon atelier, avec mes lutins.','Je vais te poser des questions pour trouver ton cadeau. Tu réponds juste oui, ou non.'];
   for(const l of lines){setLine('santa',l);await say('santa',l,{keep:true});if(tok!==introTok)return;await sleep(250)}
