@@ -1,9 +1,11 @@
 {
- "version": "2.2",
+ "version": "3.0",
  "date": "2 novembre 2026",
  "notes": [
-  "Le fauteuil du Père Noël reste fixe : seul le Père Noël bouge (respiration, pied, rire)",
-  "La bouche bouge nettement pendant toute la parole, pour le Père Noël et la Mère Noël",
-  "Réglage « Texte écrit à l’écran » : si tu le coupes, il n’y a plus que la voix"
- ]
+  "Tout nouvel atelier : grand décor illustré avec profondeur, mobilier, chaîne d’assemblage qui fabrique vraiment les jouets (pièces → presse → paquets)",
+  "Père Noël, Mère Noël et le renne entièrement redessinés en illustrations découpées et articulées : plus de double bouche, c’est la barbe qui s’ouvre",
+  "Le renne marche à quatre pattes, passe derrière le fauteuil ; Mère Noël passe derrière le fauteuil",
+  "Les lutins passent derrière les établis et nettoient avec balai, seau et éponge"
+ ],
+ "apk": true
 }
