@@ -1,14 +1,11 @@
 {
- "version": "3.3",
+ "version": "3.4",
  "date": "3 novembre 2026",
  "notes": [
-  "Atelier recalculé en vraie 3D d’après le décor : chaque lutin, meuble et personnage a sa taille réelle selon sa distance, et grandit quand il s’approche",
-  "Père Noël refait avec sa planche complète : bras avec épaules et coudes, mains posées sur les genoux, la barbe passe devant les épaules ; il cligne des yeux, plisse les yeux et se caresse la barbe quand il réfléchit",
-  "Les lutins tiennent leurs vrais outils dans la main (marteau, scie, pinceau, balai, éponge), dans le bon sens ; tous disent bonjour",
-  "Le Père Noël parle comme dans Akinator : « Ton cadeau, est-ce qu’il a des roues ? » ; il répète ta réponse pour la valider, prend le temps de réfléchir, puis pose la question suivante",
-  "Ton prénom s’écrit en grand à l’écran pour vérifier que c’est le bon",
-  "Pour les tout-petits (5 ans et moins) : seulement Oui, Non et Je ne sais pas",
-  "Écrans courts et paysage : tout reste visible, lutins mieux répartis",
-  "Nouveau dans les Réglages : choix du style des images (illustrations ou dessin fait main)"
+  "Père Noël plus rond et assis tout près de toi, au premier plan",
+  "Nouveau, pour les parents : Réglages › Concepteur — enregistrer sa propre voix pour chaque phrase du Père Noël, et régler l'apparence (taille, rondeur, position, couleurs, voix)",
+  "La question sur les jeux d'extérieur est mieux formulée",
+  "Texte système très agrandi : l'écran de jeu reste lisible et utilisable",
+  "Mise à jour : le chargement reste visible à l'écran"
  ]
 }
