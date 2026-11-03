@@ -1,7 +1,7 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.nmbig{margin:8px auto 2px;padding:10px 16px;max-width:90%;text-align:center;font-size:2.4rem;font-weight:900;letter-spacing:.04em;color:#8a1f1b;background:#fff;border:4px dashed #f3c75a;border-radius:18px;text-transform:uppercase;animation:ebin .3s ease-out}
 body.tiny #btns .btn[data-a=py],body.tiny #btns .btn[data-a=pn]{display:none}
 .ansb{display:inline-block;margin-top:4px;padding:3px 10px;border-radius:999px;font-weight:800;background:#fff3cf;border:2px solid #f3c75a;color:#5a3418}.ansb.yes{background:#dff5e3;border-color:#1f7a3b}.ansb.no{background:#fde2df;border-color:#8a1f1b}
-</style></head><body>
+.sim i{max-height:none!important;overflow:visible!important;font-size:.7rem!important}.nmbig{font-size:clamp(1.3rem,8vw,2.4rem)!important;word-break:break-word;line-height:1.05;max-width:94%!important}#panel{overflow-y:auto}</style></head><body>
 <meta name="theme-color" content="#2b1410">
 <title>Le Père Noël veut savoir</title>
 <script id="pn-loader">
@@ -418,13 +418,14 @@ function toast(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id=
 /* voix enregistrées (optionnel) : dossier voix/ + voix/map.json {"phrase en minuscules":"fichier.mp3"} */
 let VOICE={};try{fetch('voix/map.json').then(r=>r.ok?r.json():{}).then(m=>{VOICE=m||{}}).catch(()=>{})}catch(e){}
 const sentKey=x=>x.trim().toLowerCase().replace(/\s+/g,' ');
-function playClips(list){return new Promise(res=>{let i=0;const next=()=>{if(i>=list.length)return res(true);const a=new Audio('voix/'+list[i++]);curAudio=a;a.onended=next;a.onerror=()=>res(false);a.play().catch(()=>res(false))};next()})}
+function playClips(list){return new Promise(res=>{let i=0;const next=()=>{if(i>=list.length)return res(true);const src=list[i++];const a=new Audio(/^(blob:|data:)/.test(src)?src:'voix/'+src);curAudio=a;a.onended=next;a.onerror=()=>res(false);a.play().catch(()=>res(false))};next()})}
+async function speakOne(x){const pr={pitch:DEV.pitch,rate:DEV.rate-(prefs.slow?.15:0)};const T=nativeTTS();if(T){try{await T.speak({text:x,lang:'fr-FR',rate:pr.rate,pitch:pr.pitch,volume:1,category:'playback'})}catch(e){}return}if('speechSynthesis' in window){try{await webSpeak(x,pr)}catch(e){}}}
 function speak(text,who){let done=false,rs;const p=new Promise(r=>{rs=r});const fin=()=>{if(!done){done=true;clearTimeout(ft);rs()}};
   const ft=setTimeout(fin,Math.max(1800,text.length*95)+1500);
   (async()=>{
     if(!prefs.voice){setTimeout(fin,Math.min(2600,text.length*45));return}
-    if(who!=='mrs'){const ss=(text.match(/[^.!?…]+[.!?…]*/g)||[text]).map(sentKey).filter(Boolean);if(ss.length&&ss.every(k=>VOICE[k])){clearTimeout(ft);const ok=await playClips(ss.map(k=>VOICE[k]));fin();return}}
-    const pr=who==='mrs'?{pitch:1.3,rate:1.0}:{pitch:.48,rate:.88};if(prefs.slow)pr.rate-=.15;
+    if(who!=='mrs'){const raw=(text.match(/[^.!?…]+[.!?…]*/g)||[text]).map(x=>x.trim()).filter(Boolean);if(VOICE[sentKey(text)]||raw.some(x=>VOICE[sentKey(x)])){clearTimeout(ft);const mix=async()=>{if(VOICE[sentKey(text)]){const ok=await playClips([VOICE[sentKey(text)]]);if(ok)return}for(const x of raw){const k=sentKey(x);if(VOICE[k]){const ok=await playClips([VOICE[k]]);if(!ok)await speakOne(x)}else await speakOne(x)}};await mix();fin();return}}
+    const pr=who==='mrs'?{pitch:1.3,rate:1.0}:{pitch:DEV.pitch,rate:DEV.rate};if(prefs.slow)pr.rate-=.15;
     const T=nativeTTS();
     if(T){try{T.speak({text,lang:'fr-FR',rate:pr.rate,pitch:pr.pitch,volume:1,category:'playback'}).then(fin,fin)}catch(e){fin()}return}
     if(!('speechSynthesis' in window)){if(!ttsWarned){ttsWarned=true;toast('Pas de voix sur cet appareil : lis le texte du Père Noël.')}fin();return}
@@ -471,7 +472,7 @@ function duck(on){if(MG&&AC)MG.gain.setTargetAtTime(on?.035:.11,AC.currentTime,.
 function syncMusicBtn(){const b=$('#bMusic');if(b)b.textContent=prefs.music!==false?'🎵':'🔇'}
 let sayTok=0,speaking=false;
 function setLine(who,text,sub){$('#say').innerHTML=`<div class="who">${who==='mrs'?'Mère Noël':'Père Noël'}</div><p>${esc(text)}</p>${sub?`<div class="sub">${sub}</div>`:''}`}
-async function say(who,text,o){o=o||{};const tok=++sayTok;stopSpeech();if(!o.bubble)lastTalk=performance.now();
+async function say(who,text,o){o=o||{};const tok=++sayTok;if(who==='santa')noteSeen(text);stopSpeech();if(!o.bubble)lastTalk=performance.now();
   $('#santa').classList.remove('talk');$('#mrs').classList.remove('talk');
   if(o.bubble){const b=$('#bubble');b.textContent=text;b.hidden=false;clearTimeout(say.bt);say.bt=setTimeout(()=>{b.hidden=true},Math.max(2200,text.length*70))}
   else if(!o.keep)setLine(who,text,o.sub);
@@ -725,10 +726,17 @@ function rigEnt(id,W,H,def,cls){const wrap=document.createElement('div');wrap.cl
   R.mv=(name,o)=>{const b=R.bones[name];if(!b)return;b.dx=o.dx||0;b.dy=o.dy||0;b.dr=o.dr||0;b.dsx=o.dsx??1;b.dsy=o.dsy??1;R.place(b)};return R}
 
 /* ----- le Père Noël, assis dans son fauteuil près de la cheminée : il te parle et surveille son atelier ----- */
-const SANTA={x:228,y:1206,m:1.78}; /* hauteur réelle assis avec le bonnet, en mètres */
+/* réglages du concepteur (modifiables dans Réglages › Concepteur) */
+const DEV_DEF={sFat:1.3,sScale:1,sX:296,sY:1300,sM:1.62,txt:1,lum:1,sat:1,think:1,pitch:.48,rate:.88};
+const DEV=Object.assign({},DEV_DEF,(typeof prefs==='object'&&prefs.dev)||{});
+const SANTA={x:DEV.sX,y:DEV.sY,m:DEV.sM}; /* hauteur réelle assis avec le bonnet, en mètres */
 const RS=rigEnt('santa',760,1000,defSanta2);RS.bones['lunettes'].node.classList.add('glasses');
 const santaEl=RS.root;RS.root.setAttribute('aria-label','Père Noël');
-const SANTA_NH=1132;put(RS.wrap,SANTA.x,SANTA.y,SANTA.m*PXM(SANTA.y)/SANTA_NH);shade(SANTA.x,SANTA.y-6,.95*PXM(SANTA.y)*1.15);
+const SANTA_NH=1132;const santaShade=shade(0,0,10);
+function applySanta(){SANTA.x=DEV.sX;SANTA.y=DEV.sY;SANTA.m=DEV.sM;const k=SANTA.m*DEV.sScale*PXM(SANTA.y)/SANTA_NH;put(RS.wrap,SANTA.x,SANTA.y,k,DEV.sFat);
+  const w=.95*PXM(SANTA.y)*1.15*DEV.sScale*DEV.sFat,h=w*.22;santaShade.style.cssText+=`;left:${SANTA.x-w/2}px;top:${SANTA.y-6-h/2}px;width:${w}px;height:${h}px;z-index:${Math.round(SANTA.y)-40}`;
+  world.style.filter=(DEV.lum!==1||DEV.sat!==1)?`brightness(${DEV.lum}) saturate(${DEV.sat})`:'';}
+applySanta();
 const SA={mouthT:0,open:false,blinkT:2.5,blink:0,slip:0,hop:0,gest:0,gT:3,hand:[0,0],handZ:false};
 function stepSanta(t,dt){const c=santaEl.classList,talk=c.contains('talk'),laugh=c.contains('laugh'),think=c.contains('think');
   const br=Math.sin(t*1.7);let bodyDy=0,bodyDr=0,headDr=Math.sin(t*.8)*1.2,headDx=0,headDy=0,legR=0;
@@ -827,7 +835,7 @@ const elves=[];let quiet=false;const ELF_BY={};
 /* zone libre où l'on peut courir (pas collé au Père Noël) */
 /* zones où l'on peut courir : jamais collé au Père Noël, jamais dans les meubles */
 const ZONES=[[480,1000,1170,1270],[520,1060,1175,1255],[560,1020,1180,1280],[480,900,1170,1230]];
-const BLOCK=[[600,740,1100,1125],[40,450,1100,1400],[1000,1152,1160,1320],[920,1040,1165,1200],[480,610,1088,1106],[700,920,1118,1146],[880,1030,1080,1122]];
+const BLOCK=[[600,740,1100,1125],[40,560,1050,1400],[1000,1152,1160,1320],[920,1040,1165,1200],[480,610,1088,1106],[700,920,1118,1146],[880,1030,1080,1122]];
 const FREE=(z,me)=>{const Z=ZONES[z||0];let best=null,bd=-1;for(let i=0;i<60;i++){const x=rand(Z[0],Z[1]),y=rand(Z[2],Z[3]);if(BLOCK.some(b=>x>b[0]&&x<b[1]&&y>b[2]&&y<b[3])||(y>1140&&y<1160&&x>600&&x<800))continue;let d=1e9;for(const o of (typeof elves!=='undefined'?elves:[])){if(o===me)continue;d=Math.min(d,Math.hypot(o.tx-x,(o.ty-y)*2.2),Math.hypot(o.x-x,(o.y-y)*2.2))}if(d>bd){bd=d;best=[x,y]}if(d>150)return [x,y]}return best||[760,1185]};
 const JOBS=[
  {k:'loader',x:500,y:1046,dir:1,anim:'',tool:'marteau'},
@@ -939,6 +947,7 @@ let G=null;let running=false;
 function newGame(){
   const age=prefs.age||6;
   G={liked:[],lastAns:null,pool:[],asked:new Set(),proposed:new Set(),n:0,minN:5,props:0,cur:null,found:null};
+  try{const done=new Set(store.get('list',[]).map(x=>x.n));TOYS.forEach(t=>{if(done.has(t.n))G.proposed.add(t.i)})}catch(e){}
   TOYS.forEach(t=>{let w=0;if(age>=t.a&&age<=t.b)w=1;else if(age>=t.a-1&&age<=t.b+1)w=.45;if(t.p>prefs.budget)w=0;if(w>0)G.pool.push({t,w:w*(.9+Math.random()*.2)})});
   if(G.pool.length<6){TOYS.forEach(t=>{if(!G.pool.find(x=>x.t===t)&&t.p<=prefs.budget&&age>=t.a-3&&age<=t.b+3)G.pool.push({t,w:.3})})}
 }
@@ -959,7 +968,7 @@ const ICONS={
  'btn-sais-pas':'<circle cx="20" cy="20" r="17" fill="#f3c75a"/><circle cx="20" cy="20" r="17" fill="none" stroke="#b0782e" stroke-width="2.5"/><path d="M14 15 Q14 8 20 8 Q26 8 26 14 Q26 18 21 20 L20 24" fill="none" stroke="#5a3418" stroke-width="4" stroke-linecap="round"/><circle cx="20" cy="30" r="2.6" fill="#5a3418"/>'};
 const IC=n=>`<svg class="ic" viewBox="0 0 40 40" aria-hidden="true">${ICONS[n]||''}</svg>`;
 function renderAnswerButtons(){const b=$('#btns');
-  b.innerHTML=`<button class="btn yes" data-a="yes">${IC('btn-oui')}Oui !</button><button class="btn no" data-a="no">${IC('btn-non')}Non</button><button class="btn soft" data-a="py">${IC('btn-plutot-oui')}Plutôt oui</button><button class="btn soft" data-a="pn">${IC('btn-plutot-non')}Plutôt non</button><button class="btn soft wide" data-a="dk">${IC('btn-sais-pas')}Je ne sais pas</button>`+(micAvailable()?`<button class="btn wide" id="mic">🎤 Répondre avec la voix</button>`:'');
+  b.innerHTML=`<button class="btn yes" data-a="yes">${IC('btn-oui')}Oui !</button><button class="btn no" data-a="no">${IC('btn-non')}Non</button><button class="btn soft" data-a="py">${IC('btn-plutot-oui')}Plutôt oui</button><button class="btn soft" data-a="pn">${IC('btn-plutot-non')}Plutôt non</button><button class="btn soft wide" data-a="dk">${IC('btn-sais-pas')}Je ne sais pas</button>`+(micAvailable()&&prefs.mic!==false?`<button class="btn wide" id="mic">🎤 Répondre avec la voix</button>`:'');
   b.querySelectorAll('[data-a]').forEach(x=>x.onclick=()=>{ac();sfx.pop();answer(x.dataset.a)});const m=$('#mic');if(m)m.onclick=listen}
 function dots(){let h='<div class="prog">';for(let i=0;i<Math.min(14,Math.max(G.minN,G.n+1));i++)h+=`<i class="${i<G.n?'on':''}"></i>`;return h+'</div>'}
 const lf=t=>t.charAt(0).toLowerCase()+t.slice(1);
@@ -986,7 +995,7 @@ async function answer(a){if(!running||!G||!G.cur)return;const tag=G.cur;G.cur=nu
   santaEl.classList.add('think');
   if(Math.random()<.6){const th=pick(['Hmm… laisse-moi réfléchir…','Voyons voir…','Hmm… je réfléchis…','Alors… voyons…']);setLine('santa',th);await say('santa',th,{keep:true})}
   else setLine('santa','Hmm…');
-  await sleep(rand(1100,1700));santaEl.classList.remove('think');if(!running||!G)return;turn()}
+  await sleep(rand(1100,1700)*DEV.think);santaEl.classList.remove('think');if(!running||!G)return;turn()}
 function simList(t){const age=prefs.age||8;return TOYS.filter(x=>x.i!==t.i&&!G.proposed.has(x.i)&&age>=x.a-1&&age<=x.b+1).map(x=>{let c=0;x.tags.forEach(g=>{if(t.tags.has(g))c++});return [c,x]}).filter(a=>a[0]>0).sort((a,b)=>b[0]-a[0]||Math.random()-.5).slice(0,3).map(a=>a[1])}
 function simHTML(t){const l=simList(t);if(!l.length)return '';return `<div class="sim"><span>Ou plutôt un de ceux-là ?</span><div>${l.map(x=>`<button data-sim="${x.i}" aria-label="${esc(x.n)}"><b>${x.e}</b><i>${esc(cleanName(x.n))}</i></button>`).join('')}</div></div>`}
 async function propose(t){G.found=t;G.props++;G.proposed.add(t.i);running=true;
@@ -1100,7 +1109,7 @@ async function intro(){running=false;G=null;$('#card').hidden=true;forgetChild()
   const v=await voiceListen(parseYN,{hint:'Dis : oui, ou non'});if(tok!==introTok||!$('#i1'))return;
   if(v==='yes'||v==='py')$('#i1').click();else if(v==='no'||v==='pn')$('#i2').click()}
 let introTok=0;
-const cleanChildName=t=>{t=String(t||'').replace(/^(je m['’]appelle|moi c['’]est|mon pr[ée]nom (c['’]est|est)|c['’]est)\s+/i,'').replace(/[^\p{L}\- ’']/gu,'').trim().split(/\s+/)[0]||'';t=t.slice(0,20);return t?t.charAt(0).toUpperCase()+t.slice(1):''};
+const cleanChildName=t=>{t=String(t||'').replace(/[,.!?;:]/g,' ');let pv;do{pv=t;t=t.replace(/^\s*(bonjour|salut|coucou|bonsoir|ben|euh|heu|alors|oui|et|moi)\b\s*/i,'').replace(/^\s*(je\s+m['’]?\s?appelle|je\s+me\s+nomme|je\s+suis|mon pr[ée]nom\s+(c['’]est|est)|mon nom\s+(c['’]est|est)|moi\s+c['’]est|c['’]est|moi\s+je m['’]appelle)\b\s*/i,'')}while(t!==pv);t=t.replace(/[^\p{L}\- ’']/gu,'').trim().split(/\s+/)[0]||'';t=t.slice(0,20);return t?t.charAt(0).toUpperCase()+t.slice(1):''};
 function forgetChild(){prefs.name='';prefs.age=null;prefs.skipName=false;savePrefs();store.set('likes',{})}
 /* le Père Noël fait connaissance : prénom, âge, puis les questions */
 function showSetup(again){running=false;$('#card').hidden=true;
@@ -1172,6 +1181,59 @@ setInterval(()=>{if(running||mrsBusy||speaking||calmNow()||document.hidden||deer
 
 function showList(){const l=store.get('list',[]);const body=l.length?l.map((x,i)=>`<div class="li"><span class="e">${x.e}</span><span class="t">${esc(x.n)}${x.w?`<div class="small">${esc(x.w)}</div>`:''}</span><button class="btn" data-d="${i}" style="min-height:40px;padding:4px 10px" aria-label="Retirer">🗑</button></div>`).join(''):'<p>La liste est vide pour l\u2019instant. Le Père Noël attend les idées !</p>';
   dialog('Ma liste de Noël',body,l.length?[['Fermer'],['J\u2019ai fini !',()=>{closeDlg();handoff()},true]]:[['Fermer']],box=>box.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const a=store.get('list',[]);a.splice(+b.dataset.d,1);store.set('list',a);closeDlg();showList()}))}
+/* =====================  CONCEPTEUR : voix enregistrées + réglages d'apparence  ===================== */
+/* mémoire des phrases du Père Noël entendues (pour la liste à enregistrer) */
+function noteSeen(text){try{const k=sentKey(text);if(!k||k.length<3)return;const a=store.get('seen',[]);if(!a.includes(k)){a.push(k);if(a.length>600)a.shift();store.set('seen',a)}}catch(e){}}
+/* voix enregistrées : stockées sur l'appareil (IndexedDB), lues à la place de la voix de synthèse */
+function idbGet(k){return new Promise(res=>{try{const o=indexedDB.open('pn',1);o.onupgradeneeded=()=>o.result.createObjectStore('f');o.onerror=()=>res(null);o.onsuccess=()=>{const r=o.result.transaction('f','readonly').objectStore('f').get(k);r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null)}}catch(e){res(null)}})}
+function idbDel(k){return new Promise(res=>{try{const o=indexedDB.open('pn',1);o.onupgradeneeded=()=>o.result.createObjectStore('f');o.onerror=()=>res();o.onsuccess=()=>{const tx=o.result.transaction('f','readwrite');tx.objectStore('f').delete(k);tx.oncomplete=()=>res()}}catch(e){res()}})}
+const recIdx=()=>store.get('recidx',[]);
+async function loadRecordings(){for(const k of recIdx()){const b=await idbGet('rec:'+k);if(b){try{VOICE[k]=URL.createObjectURL(b)}catch(e){}}}}
+setTimeout(()=>{loadRecordings().catch(()=>{})},600);
+async function saveRecording(k,blob){await idbPut('rec:'+k,blob);const a=recIdx();if(!a.includes(k)){a.push(k);store.set('recidx',a)}VOICE[k]=URL.createObjectURL(blob)}
+async function removeRecording(k){await idbDel('rec:'+k);store.set('recidx',recIdx().filter(x=>x!==k));delete VOICE[k]}
+/* liste complète des phrases du Père Noël */
+const BASE_PHRASES=['Ho ho ho ! Bonjour, mon enfant.','Je suis le Père Noël, et tu es dans mon atelier, avec mes lutins qui préparent les jouets.','Je vais te poser des questions pour trouver le cadeau qui te ferait plaisir. Tu me réponds juste oui, ou non.','Tu veux que je t’aide à trouver ton cadeau de Noël ?','Ho ho ho, comme tu veux. Reviens me voir quand tu auras envie !','Hmm… laisse-moi réfléchir…','Voyons voir…','Hmm… je réfléchis…','Alors… voyons…','Voici d’autres idées. Touche celle que tu préfères !','Très bien. Je l’inscris sur mon papier. Ho ho ho !','Ta liste est pleine : dix cadeaux, c’est parfait. Je ne peux pas en noter plus.','Je n’ai pas bien entendu. Peux-tu répéter ?','Pardon, peux-tu répéter ?','Parle un peu plus fort, mon enfant : je n’entends pas bien.','Je n’entends pas bien. C’est mieux que tu m’aides : touche un bouton, s’il te plaît.','Je n’ai pas bien entendu. Tu peux toucher un bouton !','Comme tu voudras, mon enfant.','Très bien.','Pardon. Redis-moi ton âge.','Dis-moi ton prénom, ou touche « Je préfère ne pas le dire ».','Oui ? Je t’écoute.','Ho ho ho.','Ah, tu es là.','Doucement avec ma barbe.','Oui, je suis là.','Une étoile filante ! Fais un vœu !','Quel beau sapin !','Doucement avec mes lutins !','Ohé, repose-le !','Hihi, il chatouille !','Hmm, merci ma chérie, ils sentent si bon !','Tout va très bien. Je m’occupe des enfants.','Tout va bien, les lutins ?','Doucement avec les marteaux !','Hm, mes lunettes glissent encore.','Un instant, que je remette mes lunettes.','Voilà, je te vois mieux.','Ho ho ho !','Ho ho ho ! Tu m’entends bien ?','Oh là là, Rodolphe ! Les lutins, au nettoyage !','Encore ! Vite, qu’on nettoie !'];
+function allPhrases(){const out=[],seen=new Set();const add=(g,t)=>{const k=sentKey(t||'');if(!k||seen.has(k))return;seen.add(k);out.push([g,t.trim()])};
+  BASE_PHRASES.forEach(t=>add('Présentation et réactions',t));
+  try{Object.values(Q2).forEach(a=>{add('Questions du jeu',a[0]);add('Questions du jeu',a[1]);add('Questions du jeu',a[2])})}catch(e){}
+  store.get('seen',[]).forEach(t=>add('Entendues dans l’appli',t));return out}
+/* enregistrement micro */
+let recSess=null;
+async function startRec(k,btn){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});const mt=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m))||'';
+    const mr=mt?new MediaRecorder(st,{mimeType:mt}):new MediaRecorder(st);const ch=[];mr.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+    recSess={mr,st,k,ch,btn};mr.start();return true}catch(e){toast('Micro indisponible : autorise le micro pour enregistrer.');return false}}
+function stopRec(){return new Promise(res=>{if(!recSess)return res(null);const {mr,st,ch}=recSess;recSess=null;mr.onstop=()=>{st.getTracks().forEach(t=>t.stop());res(ch.length?new Blob(ch,{type:mr.mimeType||'audio/webm'}):null)};try{mr.stop()}catch(e){res(null)}})}
+function playRec(k,text){stopSpeech();if(VOICE[k]){const a=new Audio(/^(blob:|data:)/.test(VOICE[k])?VOICE[k]:'voix/'+VOICE[k]);a.play().catch(()=>{});curAudio=a}else say('santa',text,{bubble:true})}
+function applyDev(){applySanta();document.documentElement.style.setProperty('--txt',DEV.txt);const sy=$('#say');if(sy)sy.style.fontSize=(DEV.txt*100)+'%'}
+function saveDev(){prefs.dev=Object.assign({},DEV);savePrefs()}
+const DEV_FIELDS=[['sFat','Rondeur du Père Noël',.9,1.7,.02],['sScale','Taille du Père Noël',.6,1.4,.02],['sX','Père Noël : gauche ↔ droite',60,520,2],['sY','Père Noël : loin ↔ près',1120,1330,2],['txt','Taille du texte du dialogue',.8,1.6,.02],['lum','Luminosité du décor',.7,1.3,.02],['sat','Couleurs du décor',.6,1.5,.02],['think','Durée de réflexion du Père Noël',.4,3,.1],['pitch','Voix : grave ↔ aiguë',.2,1.2,.02],['rate','Voix : lente ↔ rapide',.5,1.2,.02]];
+function showDesigner(){
+  const tabs=[['v','🎙️ Voix'],['a','🎨 Apparence'],['r','💾 Réglages']];
+  const body=`<div class="chips" id="dTabs">${tabs.map((t,i)=>`<button class="chip ${i?'':'on'}" data-t="${t[0]}">${t[1]}</button>`).join('')}</div><div id="dBody"></div>`;
+  dialog('Concepteur',body,[['Fermer']],box=>{
+    const dB=box.querySelector('#dBody');
+    const showV=()=>{const ph=allPhrases();let g='';const rows=ph.map(([gr,t],i)=>{const k=sentKey(t),has=!!VOICE[k];const h=gr!==g?`<p class="small" style="margin:10px 0 2px"><b>${esc(gr)}</b></p>`:'';g=gr;
+        return h+`<div class="row dvr" data-k="${esc(k)}" style="display:block"><div class="small">${esc(t)}</div><div style="display:flex;gap:6px;margin-top:4px"><button class="btn dp" style="min-height:44px;flex:1">▶ Écouter</button><button class="btn dr" style="min-height:44px;flex:1">🔴 Enregistrer</button><button class="btn dx" style="min-height:44px;flex:0 0 52px" ${has?'':'disabled'} aria-label="Effacer">🗑</button></div><div class="small ds" style="margin-top:8px">${has?'✅ Voix enregistrée':'Voix du téléphone'}</div></div>`}).join('');
+      dB.innerHTML=`<p class="small">Touche « Enregistrer », dis la phrase, touche « Arrêter ». Ta voix remplace alors la voix du téléphone pour cette phrase. ${ph.length} phrases.</p>`+rows;
+      dB.querySelectorAll('.dvr').forEach(r=>{const k=r.dataset.k,txt=ph.find(p=>sentKey(p[1])===k)[1],bp=r.querySelector('.dp'),br=r.querySelector('.dr'),bx=r.querySelector('.dx'),ds=r.querySelector('.ds');
+        bp.onclick=()=>playRec(k,txt);
+        br.onclick=async()=>{if(recSess&&recSess.k===k){const b=await stopRec();br.textContent='🔴 Enregistrer';br.classList.remove('go');if(b){await saveRecording(k,b);ds.textContent='✅ Voix enregistrée';bx.disabled=false}else ds.textContent='Rien enregistré, recommence.';return}
+          if(recSess){await stopRec()}stopSpeech();if(await startRec(k,br)){br.textContent='⏹ Arrêter';br.classList.add('go');ds.textContent='J’écoute… dis la phrase'}};
+        bx.onclick=async()=>{await removeRecording(k);ds.textContent='Voix du téléphone';bx.disabled=true}})};
+    const showA=()=>{dB.innerHTML=`<p class="small">Bouge un curseur : l’écran se révèle pendant que tu touches. Tout est gardé sur cet appareil.</p>`+DEV_FIELDS.map(([k,l,a,b,st])=>`<div class="row" style="display:block"><div class="small"><b>${l}</b> : <span id="dv_${k}">${(+DEV[k]).toFixed(2)}</span></div><input type="range" data-k="${k}" min="${a}" max="${b}" step="${st}" value="${DEV[k]}" style="width:100%;min-height:44px"></div>`).join('')+`<div class="row"><button class="btn" id="dTest" style="min-height:44px">🔊 Tester la voix</button><button class="btn" id="dReset" style="min-height:44px">↩ Valeurs d’origine</button></div>`;
+      dB.querySelectorAll('input[type=range]').forEach(i=>{const ov=box;const peek=on=>{ov.style.opacity=on?'.12':'';ov.style.transition='opacity .15s'};
+        i.addEventListener('pointerdown',()=>peek(true));['pointerup','pointercancel','touchend','change'].forEach(ev=>i.addEventListener(ev,()=>peek(false)));
+        i.oninput=()=>{DEV[i.dataset.k]=+i.value;$('#dv_'+i.dataset.k).textContent=(+i.value).toFixed(2);applyDev();saveDev()}});
+      $('#dTest').onclick=()=>say('santa','Ho ho ho ! Voici ma voix, mon enfant.',{bubble:true});
+      $('#dReset').onclick=()=>{Object.assign(DEV,DEV_DEF);saveDev();applyDev();showA()}};
+    const showR=()=>{const j=JSON.stringify(DEV);dB.innerHTML=`<p class="small">Quand ton réglage te plaît, touche « Copier » : je pourrai le mettre par défaut pour tous.</p><textarea id="dJ" rows="5" style="width:100%;font-size:.8rem">${esc(j)}</textarea><div class="row"><button class="btn" id="dCp" style="min-height:44px">📋 Copier mes réglages</button><button class="btn" id="dIm" style="min-height:44px">📥 Appliquer le texte</button></div><p class="small" id="dMsg"></p>`;
+      $('#dCp').onclick=async()=>{const t=$('#dJ').value;try{await navigator.clipboard.writeText(t);$('#dMsg').textContent='Copié.'}catch(e){$('#dJ').select();$('#dMsg').textContent='Sélectionné : fais « Copier ».'}};
+      $('#dIm').onclick=()=>{try{const o=JSON.parse($('#dJ').value);Object.keys(DEV_DEF).forEach(k=>{if(typeof o[k]==='number')DEV[k]=o[k]});saveDev();applyDev();$('#dMsg').textContent='Réglages appliqués.'}catch(e){$('#dMsg').textContent='Texte invalide.'}}};
+    const go={v:showV,a:showA,r:showR};
+    box.querySelectorAll('#dTabs .chip').forEach(c=>c.onclick=async()=>{if(recSess)await stopRec();box.querySelectorAll('#dTabs .chip').forEach(x=>x.classList.toggle('on',x===c));go[c.dataset.t]()});
+    showV()})}
+
 function showSettings(){const sw=(id,on,l)=>`<div class="row"><div class="grow"><b>${l}</b></div><button class="btn toggle" id="${id}">${on?'Oui':'Non'}</button></div>`;
   const body=sw('sV',prefs.voice,'Voix du Père Noël')+sw('sX',prefs.text!==false,'Texte écrit à l’écran (sinon : voix seulement)')+sw('sS',prefs.sfx,'Bruitages et clochettes')+sw('sL',prefs.slow,'Parler plus doucement')+sw('sM',prefs.music!==false,'Musique de Noël')+sw('sI',prefs.mic!==false,'Le Père Noël écoute les réponses (micro)')+
   `<span class="lab">Budget des idées de cadeaux</span><div class="chips" id="sB">${[[1,'20 € max'],[2,'50 € max'],[3,'100 € max'],[4,'Peu importe']].map(b=>`<button class="chip ${prefs.budget===b[0]?'on':''}" data-b="${b[0]}">${b[1]}</button>`).join('')}</div>
@@ -1179,6 +1241,7 @@ function showSettings(){const sw=(id,on,l)=>`<div class="row"><div class="grow">
   <div class="row"><div class="grow"><b>Enfant : ${prefs.name?esc(prefs.name):'sans prénom'}${prefs.age?', '+prefs.age+' ans':''}</b><div class="small">Gardé seulement sur cet appareil</div></div><button class="btn" id="sF" style="min-height:44px">Oublier</button></div>`+
   `<span class="lab">Identifiant partenaire Amazon (à compléter par un adulte)</span><input type="text" id="sP" maxlength="40" autocomplete="off" placeholder="à compléter" value="${esc(prefs.partner||'')}">
   <div class="row"><div class="grow"><b>Tester la voix du Père Noël</b><div class="small">Pour vérifier que ce téléphone sait parler</div></div><button class="btn" id="sT" style="min-height:44px">Tester</button></div>
+  <div class="row"><div class="grow"><b>Concepteur</b><div class="small">Enregistrer les voix du Père Noël, régler l’apparence</div></div><button class="btn" id="sD" style="min-height:44px">🛠️ Ouvrir</button></div>
   <div class="row"><div class="grow"><b>Version ${APP.version}</b><div class="small">${APP.date}</div></div><button class="btn" id="sU" style="min-height:44px">Chercher une mise à jour</button></div>
   <div class="row" style="display:block"><b>Les nouveautés</b>${CHANGELOG.map(([v,d,ls])=>`<p class="small"><b>Version ${v}</b> · ${d}</p><ul class="small">${ls.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}</div>
   <p class="small">Rien n’est envoyé hors de cet appareil : le prénom, la liste et les réglages restent ici.</p>`;
@@ -1187,6 +1250,7 @@ function showSettings(){const sw=(id,on,l)=>`<div class="row"><div class="grow">
     box.querySelectorAll('#sY .chip').forEach(c=>c.onclick=()=>{if((prefs.style||'a')===c.dataset.y)return;prefs.style=c.dataset.y;savePrefs();setTimeout(()=>location.reload(),150)});
     box.querySelectorAll('#sB .chip').forEach(c=>c.onclick=()=>{prefs.budget=+c.dataset.b;savePrefs();box.querySelectorAll('#sB .chip').forEach(x=>x.classList.toggle('on',x===c))});
     $('#sF').onclick=()=>{forgetChild();closeDlg();showHome()};$('#sT').onclick=()=>{closeDlg();testVoice()};
+    $('#sD').onclick=()=>{prefs.partner=$('#sP').value.trim();savePrefs();closeDlg();showDesigner()};
     $('#sU').onclick=()=>{prefs.partner=$('#sP').value.trim();savePrefs();closeDlg();checkUpdate(true)}})}
 
 /* ====== fenêtre générique : défile, boutons toujours visibles ====== */
@@ -1240,7 +1304,7 @@ function yn1(t){t=(t||'').toLowerCase().replace(/[’]/g,"'");
  if(neg&&!pos)return 'no';if(pos&&!neg)return 'yes';return null}
 function parseYN(t){for(const a of String(t||'').split(' | ')){const r=yn1(a);if(r)return r}return null}
 function mapSpeech(t){return parseYN(t)}
-function parseAge(t){for(const a of String(t||'').toLowerCase().split(' | ')){let m=a.match(/\b(\d{1,2})\b/);if(m&&+m[1]>=1&&+m[1]<=99)return Math.min(14,+m[1]);m=a.match(/\b(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize)\b/);if(m)return Math.min(14,NUM[m[1]])}return null}
+function parseAge(t){for(const a of String(t||'').toLowerCase().split(' | ')){let m=a.match(/\b(\d{1,2})\b/);if(m&&+m[1]>=1&&+m[1]<=99)return Math.min(14,+m[1]);if(/dix[- ](sept|huit|neuf)/.test(a))return 14;m=a.match(/\b(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize)\b/);if(m)return Math.min(14,NUM[m[1]])}return null}
 function parseName(t){for(const a of String(t||'').split(' | ')){const n=cleanChildName(a);if(n&&n.length>=2&&!/^(oui|non|bonjour|salut|euh|heu)$/i.test(n))return n}return null}
 let recCur=null,micDenied=false,vlTok=0;
 const voiceInOn=()=>prefs.mic!==false&&micAvailable()&&!micDenied;
@@ -1296,6 +1360,7 @@ $('#spGo').addEventListener('click',e=>{if(!$('#splash').hidden){unlockTTS();ac(
 nextDeer(9000);
 $('#mrsWrap').addEventListener('pointerdown',()=>{const m=$('#mrs');m.classList.remove('hop');void m.getBoundingClientRect();m.classList.add('hop');setTimeout(()=>m.classList.remove('hop'),520)});
 setTimeout(()=>checkUpdate(false),3500);
+setTimeout(()=>{try{applyDev()}catch(e){}},50);
 window.__PN={yn:parseYN,age:parseAge,name:parseName,hoho:hoho,music:()=>({on:musicOn,tune:mTune}),vis:()=>{},mrs:k=>mrsVisit(k||'hug'),deer:()=>spawnDeer(true),view:()=>WV,elves:()=>elves,MRS:()=>MRS,deerS:()=>deer,mess:()=>mess,TOYS,newGame:()=>newGame(),state:()=>G,applyAnswer,pickQuestion,ready,prefs};
 })();
 </script>
