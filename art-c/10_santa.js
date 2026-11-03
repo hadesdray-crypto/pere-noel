@@ -137,14 +137,34 @@ function upperArm(m){
   return {inner:s,defs};
 }
 function foreArm(m){
-  const x=SHL[0],y=SHL[1]+L1;const defs=redG('ar',m)+furG('fg')+`<radialGradient id="gl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#6a564e"/><stop offset=".5" stop-color="#3a2d28"/><stop offset="1" stop-color="#1b1411"/></radialGradient>`;
+  const x=SHL[0],y=SHL[1]+L1;const defs=redG('ar',m)+furG('fg')+`<radialGradient id="gl" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#94705c"/><stop offset=".5" stop-color="#52392f"/><stop offset="1" stop-color="#26191a"/></radialGradient>`;
   const sl=`M${x-46},${y} A46,46 0 0 1 ${x+46},${y} C${x+56},${y+40} ${x+54},${y+80} ${x+48},${y+98} L${x-48},${y+98} C${x-54},${y+80} ${x-56},${y+40} ${x-46},${y}Z`;
   const hy=y+L2;
   let s=`<path d="${sl}" fill="url(#ar)" ${st(SW)}/><clipPath id="cf"><path d="${sl}"/></clipPath>
     <g clip-path="url(#cf)"><rect x="${x+8}" y="${y-60}" width="70" height="170" fill="${RED_S}" opacity=".3"/><ellipse cx="${x-18}" cy="${y+8}" rx="20" ry="14" fill="#fff" opacity=".16"/></g>`;
-  s+=`<rect x="${x-14}" y="${y+100}" width="28" height="${L2-100}" fill="${BLK}" ${st(4)}/>`;
-  s+=`<ellipse cx="${x+19}" cy="${hy-4}" rx="9.5" ry="13" transform="rotate(-24 ${x+19} ${hy-4})" fill="url(#gl)" ${st(4.5)}/>`;
-  s+=`<ellipse cx="${x}" cy="${hy+2}" rx="25" ry="24" fill="url(#gl)" ${st(4.5)}/><ellipse cx="${x-8}" cy="${hy-6}" rx="9" ry="5" transform="rotate(-25 ${x-8} ${hy-6})" fill="#fff" opacity=".3"/>`;
+  /* main gantée : moufle-gant brun noir, 4 doigts regroupés + pouce vers l'intérieur (+x) */
+  const h=y+100,X=(v)=>r1(x+v),Y=(v)=>r1(h+v);
+  const fl=[[26,86,20],[13,91,26],[0,91,26],[-13,86,20]]; /* [x lobes, sommet] -> généré ci-dessous */
+  const tips=[[19.5,92],[6.5,97],[-6.5,95],[-19.5,87]];
+  let palm=`M${X(-25)},${Y(-4)} L${X(25)},${Y(-4)} C${X(30)},${Y(18)} ${X(31)},${Y(46)} ${X(26)},${Y(70)}`;
+  let px0=26;
+  for(const [cx,ty] of tips){const lx=cx-6.5,vy=ty-9;palm+=` C${X(px0+1)},${Y(ty+1)} ${X(cx+5)},${Y(ty+3)} ${X(cx)},${Y(ty)} S${X(lx-1)},${Y(vy-1)} ${X(lx)},${Y(vy)}`;px0=lx}
+  palm=`M${X(-25)},${Y(-4)} L${X(25)},${Y(-4)} C${X(30)},${Y(18)} ${X(31)},${Y(46)} ${X(26)},${Y(74)} `
+   +`C${X(26)},${Y(90)} ${X(24)},${Y(94)} ${X(19.5)},${Y(94)} C${X(14)},${Y(94)} ${X(13)},${Y(90)} ${X(13)},${Y(88)} `
+   +`C${X(13)},${Y(98)} ${X(11)},${Y(101)} ${X(6.5)},${Y(101)} C${X(1.5)},${Y(101)} ${X(0)},${Y(98)} ${X(0)},${Y(94)} `
+   +`C${X(0)},${Y(98)} ${X(-2)},${Y(100)} ${X(-6.5)},${Y(100)} C${X(-11)},${Y(100)} ${X(-13)},${Y(97)} ${X(-13)},${Y(90)} `
+   +`C${X(-13)},${Y(92)} ${X(-15)},${Y(93)} ${X(-19.5)},${Y(93)} C${X(-24)},${Y(93)} ${X(-27)},${Y(88)} ${X(-27)},${Y(76)} `
+   +`C${X(-29)},${Y(50)} ${X(-30)},${Y(24)} ${X(-25)},${Y(-4)}Z`;
+  const thumb=`M${X(18)},${Y(14)} C${X(30)},${Y(8)} ${X(44)},${Y(18)} ${X(48)},${Y(36)} C${X(51)},${Y(50)} ${X(46)},${Y(62)} ${X(38)},${Y(62)} C${X(30)},${Y(62)} ${X(27)},${Y(52)} ${X(24)},${Y(44)} C${X(21)},${Y(36)} ${X(16)},${Y(34)} ${X(14)},${Y(30)}Z`;
+  s+=`<g transform="translate(${x} ${h}) scale(1.22) translate(${-x} ${-h})">`;
+  s+=`<clipPath id="gp"><path d="${palm}"/></clipPath>`;
+  s+=`<path d="${palm}" fill="url(#gl)" ${st(4.5)}/>`;
+  s+=`<g clip-path="url(#gp)"><rect x="${X(-4)}" y="${Y(-6)}" width="40" height="120" fill="#000" opacity=".22"/>
+     <path d="M${X(-18)},${Y(8)} C${X(-22)},${Y(30)} ${X(-22)},${Y(52)} ${X(-19)},${Y(70)}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".28"/></g>`;
+  s+=`<path d="M${X(13)},${Y(88)} L${X(13)},${Y(66)} M${X(0)},${Y(94)} L${X(0)},${Y(66)} M${X(-13)},${Y(90)} L${X(-13)},${Y(68)}" fill="none" stroke="#1d110d" stroke-width="3" stroke-linecap="round" opacity=".7"/>`;
+  s+=`<path d="${thumb}" fill="url(#gl)" ${st(4.5)}/><path d="M${X(28)},${Y(18)} C${X(38)},${Y(22)} ${X(42)},${Y(30)} ${X(43)},${Y(40)}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".28"/>`;
+  s+=`<path d="M${X(14)},${Y(34)} C${X(20)},${Y(40)} ${X(22)},${Y(48)} ${X(24)},${Y(54)}" fill="none" stroke="#0e0908" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>`;
+  s+=`</g>`;
   s+=`<path d="${cloudEll(x,y+101,47,18,12,6)}" fill="url(#fg)" ${st(4.5)}/><path d="M${x-30},${y+106} Q${x},${y+116} ${x+30},${y+106}" fill="none" stroke="${FUR_S}" stroke-width="4.5" stroke-linecap="round"/>`;
   return {inner:s,defs};
 }
@@ -223,15 +243,30 @@ function glasses(){
   return piece('c-santa-lunettes',250,285,510,385,`<g transform="translate(0 ${HY})">${s}</g>`,defs);
 }
 function hat(){
-  const defs=furG('fg')+`<linearGradient id="hr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ee5a4f"/><stop offset=".45" stop-color="#d2342f"/><stop offset="1" stop-color="#9f2420"/></linearGradient>`;
-  const dome=`M262,206 C254,166 286,134 340,124 C400,112 466,126 504,158 C542,190 562,240 560,296 L530,300 C528,256 514,228 498,206Z`;
-  let s=`<path d="${dome}" fill="url(#hr)" ${st(SW)}/>
-   <path d="M302,166 C330,142 378,134 424,142" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".22"/><path d="M466,166 C494,184 510,204 514,230" fill="none" stroke="${RED_S}" stroke-width="5" stroke-linecap="round" opacity=".5"/>`;
-  const yc=(x)=>204+20*(1-Math.pow((x-380)/122,2));
-  const top=[],bot=[];for(let x=262;x<=498;x+=24)top.push([x,yc(x)-21]);for(let x=498;x>=262;x-=24)bot.push([x,yc(x)+21]);
-  const band=`M${top[0][0]},${r1(top[0][1])}`+cloudQ(top,6)+`Q510,${r1(yc(498))} ${bot[0][0]},${r1(bot[0][1])}`+cloudQ(bot,6)+`Q250,${r1(yc(262))} ${top[0][0]},${r1(top[0][1])}Z`;
-  s+=`<path d="${band}" fill="url(#fg)" ${st(SW)}/><path d="M290,${r1(yc(290)+10)} Q380,${r1(yc(380)+16)} 470,${r1(yc(470)+10)}" fill="none" stroke="${FUR_S}" stroke-width="5" stroke-linecap="round"/>`;
-  s+=`<path d="${cloudEll(550,322,34,32,10,8)}" fill="url(#fg)" ${st(SW)}/><path d="M530,334 Q550,350 572,334" fill="none" stroke="${FUR_S}" stroke-width="5" stroke-linecap="round"/>`;
+  const defs=furG('fg')+`<linearGradient id="hr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ee5a4f"/><stop offset=".45" stop-color="#d2342f"/><stop offset="1" stop-color="#9f2420"/></linearGradient>
+   <radialGradient id="pg" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="${FUR}"/><stop offset="1" stop-color="${FUR_S}"/></radialGradient>
+   <linearGradient id="bsh" x1="0" y1="0" x2="1" y2="0"><stop offset=".5" stop-color="${FUR_S}" stop-opacity="0"/><stop offset="1" stop-color="${FUR_S}" stop-opacity=".95"/></linearGradient><linearGradient id="csh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${RED_S}" stop-opacity="0"/><stop offset="1" stop-color="${RED_S}" stop-opacity=".5"/></linearGradient><clipPath id="hdc"><ellipse cx="380" cy="305" rx="115" ry="108"/></clipPath>`;
+  /* cône souple : monte, plie à droite et retombe vers le pompom */
+  const cone=`M254,226 C242,170 288,128 358,124 C428,120 496,134 528,176 C552,208 564,252 556,292 C552,306 534,306 528,292 C522,262 510,236 488,212 L440,214 Z`;
+  let s=`<path d="${cone}" fill="url(#hr)" ${st(SW)}/><clipPath id="cc"><path d="${cone}"/></clipPath>
+   <g clip-path="url(#cc)"><rect x="400" y="110" width="170" height="220" fill="url(#csh)"/>
+    <path d="M430,214 C446,176 482,150 530,150" fill="none" stroke="${RED_S}" stroke-width="7" stroke-linecap="round" opacity=".5"/>
+    <path d="M300,200 C300,170 330,148 372,142" fill="none" stroke="${RED_S}" stroke-width="5" stroke-linecap="round" opacity=".35"/>
+    <path d="M286,176 C306,146 352,134 400,136" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".28"/>
+    <path d="M540,214 C550,240 552,262 548,284" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".18"/></g>
+   <path d="${cone}" fill="none" ${st(SW)}/>`;
+  /* pli net au coude du cône */
+  s+=`<path d="M470,146 C500,150 520,168 532,192" fill="none" stroke="${OL}" stroke-width="3.5" stroke-linecap="round" opacity=".55"/>`;
+  /* large bande de fourrure, épaisse, qui descend sur les tempes */
+  const T=x=>190+38*Math.pow((x-380)/124,2),B=x=>234+36*Math.pow((x-380)/124,2);
+  const top=[],bot=[];for(let x=256;x<=504;x+=20.7)top.push([x,T(x)]);for(let x=504;x>=256;x-=20.7)bot.push([x,B(x)]);
+  const band=`M${top[0][0]},${r1(top[0][1])}`+cloudQ(top,7)+`C524,${r1(T(504))} 526,${r1(B(504))} ${bot[0][0]},${r1(bot[0][1])}`+cloudQ(bot,7)+`C238,${r1(B(256))} 236,${r1(T(256))} ${top[0][0]},${r1(top[0][1])}Z`;
+  s+=`<g clip-path="url(#hdc)"><path d="${band}" transform="translate(0 9)" fill="#8a4a36" opacity=".28"/></g>`;
+  s+=`<path d="${band}" fill="url(#fg)" ${st(SW)}/><clipPath id="bdc"><path d="${band}"/></clipPath>
+   <g clip-path="url(#bdc)"><rect x="240" y="170" width="290" height="120" fill="url(#bsh)"/><path d="M270,${r1(B(270)-7)} Q380,${r1(B(380)+2)} 490,${r1(B(490)-7)}" fill="none" stroke="${FUR_S}" stroke-width="9" stroke-linecap="round" opacity=".8"/></g>
+   <path d="M300,${r1(T(300)+12)} Q380,${r1(T(380)+16)} 460,${r1(T(460)+12)} M284,${r1(T(284)+24)} Q300,${r1(T(300)+30)} 320,${r1(T(320)+27)} M440,${r1(T(440)+28)} Q462,${r1(T(462)+30)} 478,${r1(T(478)+22)}" fill="none" stroke="${FUR_S}" stroke-width="4.5" stroke-linecap="round"/>`;
+  /* pompom rond et duveteux */
+  s+=`<path d="${cloudEll(546,322,38,36,14,8)}" fill="url(#pg)" ${st(SW)}/><path d="M524,336 Q546,356 572,338" fill="none" stroke="${FUR_S}" stroke-width="5" stroke-linecap="round"/><path d="M522,310 Q530,296 546,293" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/><path d="M552,312 q8,6 4,16 M534,324 q-2,8 4,12" fill="none" stroke="${FUR_S}" stroke-width="3.5" stroke-linecap="round"/>`;
   return piece('c-santa-bonnet',236,120,600,400,`<g transform="translate(0 ${HY})">${s}</g>`,defs);
 }
 
@@ -240,7 +275,7 @@ const pBack=chairBack(),pTh=thighs(),pGil=gilet(),pCol=collar(),pHead=head(),pHa
 const mk=(nm,fn,box)=>({g:sidePiece(nm+'-g',box,fn,1),d:sidePiece(nm+'-d',box,fn,-1)});
 const pChA=mk('c-santa-fauteuil-av',chairFront,[40,620,260,1000]);
 const pUp=mk('c-santa-bras',upperArm,[156,430,316,700]);
-const pFo=mk('c-santa-avbras',foreArm,[176,620,316,870]);
+const pFo=mk('c-santa-avbras',foreArm,[176,586,316,870]); /* y0=586 : le haut du manchon (cercle du coude, rayon 46+trait) dépasse de 49 px au-dessus du coude (y=645) — avant, la boîte à 620 le tronquait net */
 const pSh=mk('c-santa-jambe',shin,[170,830,380,1000]);
 const pEy={};for(const k of ['f','m','g'])for(const s of ['g','d'])pEy[k+s]=eyesOverlay(k,s);
 
@@ -280,7 +315,10 @@ window.defSantaC=function(R,IMG){
   put('fauteuil-av-g',pChA.g,[130,990],rel([130,990],BASE),'base',{z:5});
   put('fauteuil-av-d',pChA.d,[MIR(130),990],rel([MIR(130),990],BASE),'base',{z:5});
   R.armTo=(s,H,bend)=>{const Sh=R.SH[s];const sg=s==='g'?1:-1;const E=ik2([Sh.x,Sh.y],H,L1,L2,bend??sg);
-    R.set('bras-'+s,{r:angDown([Sh.x,Sh.y],E)});R.set('avbras-'+s,{x:E[0],y:E[1],r:angDown(E,H)})};
+    R.set('bras-'+s,{r:angDown([Sh.x,Sh.y],E)});R.set('avbras-'+s,{x:E[0],y:E[1],r:angDown(E,H)});
+    /* profondeur : quand la main monte vers le visage, le bras ENTIER (bras + avant-bras) passe devant la tête ; sinon l'épaule/le haut du bras reste derrière la tête et l'avant-bras semble flotter, détaché du corps */
+    const up=H[1]<R.bones.tete.y+8&&Math.abs(H[0])<250;
+    R.bones['bras-'+s].node.style.zIndex=up?7:2;R.bones['avbras-'+s].node.style.zIndex=up?8:3};
   R.armTo('g',[R.KNEE.g.x,R.KNEE.g.y]);R.armTo('d',[R.KNEE.d.x,R.KNEE.d.y]);
 };
 })();

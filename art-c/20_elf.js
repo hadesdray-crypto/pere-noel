@@ -39,9 +39,10 @@ return `<svg class="elfsvg" viewBox="0 -12 60 108" aria-hidden="true">
 </defs>
 <ellipse cx="30" cy="95.2" rx="19" ry="3.3" fill="rgba(60,30,10,.32)"/>
 <g class="legs">
-<g class="l1"><rect x="20" y="64" width="8.6" height="23" rx="4" fill="url(#ceSt)" ${O}/><rect x="25.2" y="64" width="3.4" height="23" rx="1.7" fill="#000" opacity=".1" ${N}/>
+<path class="pelvis" d="M22.5 60 V75 Q22.5 80.5 30 80.5 Q37.5 80.5 37.5 75 V60Z" fill="url(#ceSt)" ${O}/>
+<g class="l1"><rect x="20" y="58" width="8.6" height="29" rx="4" fill="url(#ceSt)" ${O}/><rect x="25.2" y="58" width="3.4" height="29" rx="1.7" fill="#000" opacity=".1" ${N}/>
 <path d="M19 85.5 H29.4 V93 Q29.4 95.6 26.8 95.6 H17.4 Q12.6 95.6 11.6 92.4 Q11 90.2 12.6 89.4 Q14.2 88.9 14.6 90.8 Q15 92.4 17 92.4 H19Z" fill="#8b4a22" ${O}/><path d="M20.4 87.2 H28" stroke="#fffaf0" stroke-width="2.6" stroke-linecap="round" ${N}/><path d="M19.6 88.6 Q23 87.8 28.4 88.6" fill="none" stroke="#c98a55" stroke-width="1.2" stroke-linecap="round" ${N}/><circle cx="11.9" cy="89.6" r="1.6" fill="url(#ceGo)" ${OF(.8)}/></g>
-<g class="l2"><rect x="31.4" y="64" width="8.6" height="23" rx="4" fill="url(#ceSt)" ${O}/><rect x="36.6" y="64" width="3.4" height="23" rx="1.7" fill="#000" opacity=".1" ${N}/>
+<g class="l2"><rect x="31.4" y="58" width="8.6" height="29" rx="4" fill="url(#ceSt)" ${O}/><rect x="36.6" y="58" width="3.4" height="29" rx="1.7" fill="#000" opacity=".1" ${N}/>
 <path d="M30.6 85.5 H41 V93 Q41 95.6 38.4 95.6 H30.6Z M30.6 85.5 V95.6 H42.6 Q47.4 95.6 48.4 92.4 Q49 90.2 47.4 89.4 Q45.8 88.9 45.4 90.8 Q45 92.4 43 92.4 H41 V85.5Z" fill="#8b4a22" ${O}/><path d="M32 87.2 H39.6" stroke="#fffaf0" stroke-width="2.6" stroke-linecap="round" ${N}/><circle cx="48.1" cy="89.6" r="1.6" fill="url(#ceGo)" ${OF(.8)}/></g>
 </g>
 <g class="body">
