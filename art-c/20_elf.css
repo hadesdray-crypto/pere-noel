@@ -1,0 +1,41 @@
+/* Style C — lutins : animations plus naturelles. À ajouter quand le style C est actif. */
+.elf .elfsvg{--k:#4a2418}
+/* pivots précis (épaule) : indépendants des outils tenus */
+.elf .elfsvg .arm.l{transform-box:view-box;transform-origin:13.4px 45.6px}
+.elf .elfsvg .arm.r{transform-box:view-box;transform-origin:46.6px 45.6px}
+.elf .l1,.elf .l2{transform-box:view-box;transform-origin:50% 0}
+.elf .elfsvg .l1{transform-origin:24.3px 66px}.elf .elfsvg .l2{transform-origin:35.7px 66px}
+.elf .elfsvg .hd{transform-box:view-box;transform-origin:30px 42px;animation:chd 3.6s ease-in-out infinite}
+.elf:nth-child(2n) .elfsvg .hd{animation-delay:-1.4s}
+@keyframes chd{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.6deg)}}
+.elf .elfsvg .body{transform-box:view-box;transform-origin:30px 78px;animation:cbr 3.2s ease-in-out infinite}
+@keyframes cbr{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.02)}}
+.elf .elfsvg .hat{transform-box:view-box;transform-origin:30px 22px}
+/* marche : jambes opposées aux bras, rebond, hochement */
+@keyframes step{from{transform:rotate(-20deg)}to{transform:rotate(20deg)}}
+@keyframes bob{0%{transform:translateY(0) rotate(-1deg)}100%{transform:translateY(-3.5px) rotate(1deg)}}
+@keyframes armsw{from{transform:rotate(26deg)}to{transform:rotate(-26deg)}}
+@keyframes armsw2{from{transform:rotate(-26deg)}to{transform:rotate(26deg)}}
+@keyframes hatsway{from{transform:rotate(-7deg)}to{transform:rotate(8deg)}}
+@keyframes chdw{from{transform:rotate(-2.5deg) translateY(0)}to{transform:rotate(2.5deg) translateY(-.6px)}}
+.elf.walking .elfsvg .hd{animation:chdw .28s infinite alternate}
+.elf.walking .elfsvg .body{animation:none}
+.elf.walking:not(.carrying):not(.cleaning):not(.hammer):not(.wave) .elfsvg .arm.l{animation:armsw .28s infinite alternate}
+.elf.walking:not(.carrying):not(.cleaning):not(.hammer):not(.wave) .elfsvg .arm.r{animation:armsw2 .28s infinite alternate}
+/* marteau : lever puis frapper, bras gauche en contrepoint */
+@keyframes hammer{0%{transform:rotate(-70deg)}70%{transform:rotate(18deg)}100%{transform:rotate(22deg)}}
+@keyframes hamL{from{transform:rotate(-12deg)}to{transform:rotate(6deg)}}
+.elf.hammer .elfsvg .arm.r{animation:hammer .5s ease-in infinite alternate}
+.elf.hammer .elfsvg .arm.l{animation:hamL .5s ease-in-out infinite alternate}
+.elf.cleaning .elfsvg .arm.r{animation:hammer .45s ease-in-out infinite alternate}
+.elf.cleaning .elfsvg .arm.l{animation:hamL .45s ease-in-out infinite alternate}
+/* salut : bras levé qui balance */
+@keyframes cwave{from{transform:rotate(-142deg)}to{transform:rotate(-168deg)}}
+.elf.wave .elfsvg .arm.r{animation:cwave .3s ease-in-out infinite alternate}
+.elf.wave.walking .elfsvg .arm.r{animation:cwave .3s ease-in-out infinite alternate}
+/* porte un cadeau : bras ramenés devant */
+.elf.carrying .elfsvg .arm.l{transform:rotate(-34deg);animation:none}
+.elf.carrying .elfsvg .arm.r{transform:rotate(34deg);animation:none}
+.elf.dizzy .elfsvg .hd{animation:cdz .5s ease-in-out infinite alternate}
+@keyframes cdz{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+.elf .ee{transform-box:fill-box;transform-origin:50% 50%}

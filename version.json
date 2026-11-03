@@ -1,11 +1,9 @@
 {
- "version": "3.4",
+ "version": "3.5",
  "date": "3 novembre 2026",
  "notes": [
-  "Père Noël plus rond et assis tout près de toi, au premier plan",
-  "Nouveau, pour les parents : Réglages › Concepteur — enregistrer sa propre voix pour chaque phrase du Père Noël, et régler l'apparence (taille, rondeur, position, couleurs, voix)",
-  "La question sur les jeux d'extérieur est mieux formulée",
-  "Texte système très agrandi : l'écran de jeu reste lisible et utilisable",
-  "Mise à jour : le chargement reste visible à l'écran"
+  "Nouveau look « Livre de Noël » : tout est redessiné en vectoriel, net sur tous les écrans",
+  "Père Noël, Mère Noël, lutins et décor repensés, avec une vraie perspective",
+  "Les anciens styles restent choisissables dans Réglages"
  ]
 }
