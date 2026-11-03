@@ -1,11 +1,13 @@
 {
- "version": "3.0",
- "date": "2 novembre 2026",
+ "version": "3.1",
+ "date": "3 novembre 2026",
  "notes": [
-  "Tout nouvel atelier : grand décor illustré avec profondeur, mobilier, chaîne d’assemblage qui fabrique vraiment les jouets (pièces → presse → paquets)",
-  "Père Noël, Mère Noël et le renne entièrement redessinés en illustrations découpées et articulées : plus de double bouche, c’est la barbe qui s’ouvre",
-  "Le renne marche à quatre pattes, passe derrière le fauteuil ; Mère Noël passe derrière le fauteuil",
-  "Les lutins passent derrière les établis et nettoient avec balai, seau et éponge"
- ],
- "apk": true
+  "Atelier entièrement refait en vraie perspective : chaque personnage et chaque meuble a la bonne taille selon sa distance",
+  "Seize lutins, chacun à son poste : chaîne d’assemblage qui fabrique les jouets (pièces → presse → toboggan → emballage → tas de cadeaux), établi, étau, peinture, sapin, chariot de cadeaux",
+  "Le Père Noël est assis dans son fauteuil devant à gauche : il cligne des yeux, respire, tape du pied, sa barbe s’ouvre quand il parle (une seule bouche)",
+  "La Mère Noël passe derrière le fauteuil, apporte des biscuits ou fait un câlin",
+  "Rodolphe le renne marche à quatre pattes à sa vraie taille… et les lutins nettoient ses bêtises",
+  "Pendant que tu parles au Père Noël, personne ne vient déranger",
+  "Les images sont incluses : la mise à jour se fait directement dans l’appli"
+ ]
 }
