@@ -1,13 +1,13 @@
 {
- "version": "3.1",
+ "version": "3.2",
  "date": "3 novembre 2026",
  "notes": [
-  "Atelier entièrement refait en vraie perspective : chaque personnage et chaque meuble a la bonne taille selon sa distance",
-  "Seize lutins, chacun à son poste : chaîne d’assemblage qui fabrique les jouets (pièces → presse → toboggan → emballage → tas de cadeaux), établi, étau, peinture, sapin, chariot de cadeaux",
-  "Le Père Noël est assis dans son fauteuil devant à gauche : il cligne des yeux, respire, tape du pied, sa barbe s’ouvre quand il parle (une seule bouche)",
-  "La Mère Noël passe derrière le fauteuil, apporte des biscuits ou fait un câlin",
-  "Rodolphe le renne marche à quatre pattes à sa vraie taille… et les lutins nettoient ses bêtises",
-  "Pendant que tu parles au Père Noël, personne ne vient déranger",
-  "Les images sont incluses : la mise à jour se fait directement dans l’appli"
+  "Atelier recalculé en vraie 3D d’après le décor : chaque lutin, meuble et personnage a sa taille réelle selon sa distance, et grandit quand il s’approche",
+  "Père Noël refait avec sa planche complète : bras avec épaules et coudes, mains posées sur les genoux, la barbe passe devant les épaules ; il cligne des yeux, plisse les yeux et se caresse la barbe quand il réfléchit",
+  "Les lutins tiennent leurs vrais outils dans la main (marteau, scie, pinceau, balai, éponge), dans le bon sens ; tous disent bonjour",
+  "Le Père Noël parle comme dans Akinator : « Ton cadeau, est-ce qu’il a des roues ? » ; il répète ta réponse pour la valider, prend le temps de réfléchir, puis pose la question suivante",
+  "Ton prénom s’écrit en grand à l’écran pour vérifier que c’est le bon",
+  "Pour les tout-petits (5 ans et moins) : seulement Oui, Non et Je ne sais pas",
+  "Nouveau dans les Réglages : choix du style des images (illustrations ou dessin fait main)"
  ]
 }
