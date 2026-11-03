@@ -53,17 +53,14 @@ jobs:
         run: cd android && ./gradlew assembleRelease --no-daemon -q
       - name: Signer
         env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
           BT=$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)
           APK=android/app/build/outputs/apk/release/app-release-unsigned.apk
           $ANDROID_HOME/build-tools/$BT/zipalign -f -p 4 $APK aligne.apk
-          test -n "$KEYSTORE_BASE64" && test -n "$KEYSTORE_PASSWORD" || { echo "::error::Secrets KEYSTORE_BASE64 / KEYSTORE_PASSWORD manquants (Settings > Secrets and variables > Actions)"; exit 1; }
-          # on garde seulement les caractères d'une clé (le téléphone ajoute parfois des espaces, retours à la ligne ou guillemets)
-          CLEAN=$(printf '%s' "$KEYSTORE_BASE64" | tr -cd 'A-Za-z0-9+/=')
-          echo "Longueur de la clé reçue : ${#CLEAN} caractères (attendu : 3560)"
-          printf '%s' "$CLEAN" | base64 -d -i > "$RUNNER_TEMP/cle.jks" 2>/dev/null || { echo "::error::La clé collée est incomplète ou abîmée (${#CLEAN} caractères au lieu de 3560) : recolle KEYSTORE_BASE64"; exit 1; }
+          test -n "$KEYSTORE_PASSWORD" || { echo "::error::Secret KEYSTORE_PASSWORD manquant (Settings > Secrets and variables > Actions)"; exit 1; }
+          # la clé de signature est dans le dépôt, chiffrée ; seul le mot de passe (secret) la déverrouille
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in android-ressources/cle-chiffree.bin -out "$RUNNER_TEMP/cle.jks" -pass env:KEYSTORE_PASSWORD || { echo "::error::Le mot de passe KEYSTORE_PASSWORD ne déverrouille pas la clé"; exit 1; }
           keytool -list -keystore "$RUNNER_TEMP/cle.jks" -storepass "$KEYSTORE_PASSWORD" > /dev/null 2>&1 || { echo "::error::La clé ne s'ouvre pas avec ce mot de passe"; exit 1; }
           $ANDROID_HOME/build-tools/$BT/apksigner sign --ks "$RUNNER_TEMP/cle.jks" --ks-pass env:KEYSTORE_PASSWORD --key-pass env:KEYSTORE_PASSWORD --out pere-noel.apk aligne.apk
           rm -f "$RUNNER_TEMP/cle.jks"
