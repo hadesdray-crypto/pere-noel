@@ -892,7 +892,9 @@ function stepElf(e,dt){e.t+=dt;let walking=false;
   renderElf(e,walking)}
 function renderElf(e,walking){if(walking!==undefined)e.el.classList.toggle('walking',walking);
   if(e.anim)setCls(e,e.anim,!walking&&!e.carry);
-  const k=KY(e.y);put(e.el,e.x,e.y,k,e.dir,e.st==='held'?3000:0)}
+  const k=KY(e.y);put(e.el,e.x,e.y,k,e.dir,e.st==='held'?3000:0);
+  /* zone tactile : au moins ~48 x 64 px à l'écran, même pour les lutins du fond */
+  const sc=Math.max(.05,k*(typeof WV!=='undefined'&&WV.sc?WV.sc:1)),w=Math.round(Math.max(78,48/sc)),h=Math.round(Math.max(140,64/sc));if(e._hw!==w||e._hh!==h){e._hw=w;e._hh=h;const b=e.el.querySelector('.eb');b.style.width=w+'px';b.style.height=h+'px';b.style.left=(-w/2)+'px';b.style.top=(-h)+'px'}}
 function calmElves(){quiet=true}
 function partyElves(){quiet=false}
 function elvesHello(){/* tous les lutins disent bonjour, chacun à son tour */let k=0;elves.slice().sort((a,b)=>a.x-b.x).forEach(e=>{setTimeout(()=>{e.hello=2.6;setCls(e,'wave',true);elfSay(e,pick(['Bonjour !','Coucou !','Salut !','Bonjour !','Bienvenue !']),true)},k++*170)})}
@@ -1294,7 +1296,7 @@ $('#spGo').addEventListener('click',e=>{if(!$('#splash').hidden){unlockTTS();ac(
 nextDeer(9000);
 $('#mrsWrap').addEventListener('pointerdown',()=>{const m=$('#mrs');m.classList.remove('hop');void m.getBoundingClientRect();m.classList.add('hop');setTimeout(()=>m.classList.remove('hop'),520)});
 setTimeout(()=>checkUpdate(false),3500);
-window.__PN={yn:parseYN,age:parseAge,name:parseName,hoho:hoho,music:()=>({on:musicOn,tune:mTune}),vis:k=>visitor(k||'lutin-gamer'),mrs:k=>mrsVisit(k||'hug'),deer:()=>spawnDeer(true),view:()=>WV,elves:()=>elves,MRS:()=>MRS,deerS:()=>deer,mess:()=>mess,TOYS,newGame:()=>newGame(),state:()=>G,applyAnswer,pickQuestion,ready,prefs};
+window.__PN={yn:parseYN,age:parseAge,name:parseName,hoho:hoho,music:()=>({on:musicOn,tune:mTune}),vis:()=>{},mrs:k=>mrsVisit(k||'hug'),deer:()=>spawnDeer(true),view:()=>WV,elves:()=>elves,MRS:()=>MRS,deerS:()=>deer,mess:()=>mess,TOYS,newGame:()=>newGame(),state:()=>G,applyAnswer,pickQuestion,ready,prefs};
 })();
 </script>
 
