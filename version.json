@@ -1,13 +1,11 @@
 {
- "version": "4.1",
+ "version": "4.2",
  "date": "3 novembre 2026",
  "notes": [
-  "Le Père Noël écoute mieux : plus d'essais, meilleure reconnaissance du oui et du non, et un petit clavier en bas pour écrire la réponse quand il y a du bruit",
-  "Le Père Noël parle un peu plus vite (réglage « Parler plus vite » dans les Réglages)",
-  "Sept façons différentes d'annoncer un cadeau trouvé, et de réagir quand il se trompe : les lutins regardent, rient ou s'exclament",
-  "Le traîneau qui traverse le mur se voit et s'entend beaucoup mieux",
-  "Les lutins sont plus vivants et curieux ; les jambes ne se croisent plus",
-  "Deux doigts sur l'écran : plus de zoom ni de déplacement",
-  "Toutes les nouvelles phrases sont enregistrables dans le menu Concepteur"
+  "Nouvelle ouverture : un vieux volet métallique cuivré cache l'atelier ; on peut le soulever du doigt, il grince, puis il s'ouvre en accélérant et se range",
+  "Gag du technicien : on l'entend visser le Père Noël derrière le volet ; surpris, il s'enfuit, le Père Noël robot se trahit, Mère Noël passe lui dire coucou",
+  "Introduction plus courte, option « Ouverture animée » dans les Réglages",
+  "Correction importante : les réactions des lutins à chaque réponse fonctionnent à nouveau",
+  "Moins de bulles de texte quand la voix marche : elles s'affichent seulement si le Père Noël n'est pas entendu"
  ]
 }
