@@ -1,10 +1,11 @@
 {
- "version": "4.8",
+ "version": "4.9",
  "date": "4 novembre 2026",
  "notes": [
-  "Fin de la réparation du mur : les lutins disent « Voilà ! », le technicien se déplace et s'enfuit correctement",
-  "Le traîneau vole en 3D devant le Père Noël puis s'écrase dans le mur, sans gêner l'écoute",
-  "5 scènes d'ouverture différentes avec le technicien (robot, guirlandes, ressort, mousse, cadeaux)",
-  "Catalogue de cadeaux agrandi : téléphones, consoles, oreillers, couettes, chaussures, jouets de supermarché"
+  "Avant d'entrer, la mise en place se passe derrière le volet : lutins qui s'affairent, lumière qui s'allume, tests de voix du Père Noël",
+  "Scène d'ouverture « pièce manquante » à la place des guirlandes",
+  "La Mère Noël ne coupe plus jamais la parole",
+  "Un seul signal « À toi ! » (voix puis voyant rouge) et explication au début sur l'écoute",
+  "Bouton « Je me suis trompé » pour revenir à la question précédente"
  ]
 }
