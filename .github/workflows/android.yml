@@ -5,7 +5,7 @@ name: Application Android
 on:
   push:
     branches: [main]
-    paths: ["app/**", "voix/**", "tools/**", "android-ressources/**", "capacitor.config.json", "package.json", ".github/workflows/android.yml"]
+    paths: ["app/**", "voix/**", "tools/**", "android-ressources/**", "capacitor.config.json", "package.json", "version.json", ".github/workflows/android.yml"]
   workflow_dispatch:
 
 permissions:

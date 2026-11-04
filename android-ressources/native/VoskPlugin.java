@@ -101,8 +101,8 @@ public class VoskPlugin extends Plugin {
                 String text = "";
                 while (!stop) {
                     int n = rec.read(buf, 0, buf.length);
-                    if (n <= 0) continue;
                     long el = System.currentTimeMillis() - t0;
+                    if (n <= 0) { if (el > timeout + 4000) break; try { Thread.sleep(20); } catch (Exception e) {} continue; }
                     if (rz.acceptWaveForm(buf, n)) {
                         text = new JSONObject(rz.getResult()).optString("text", "");
                         if (!text.trim().isEmpty() && !text.trim().equals("[unk]")) break;
