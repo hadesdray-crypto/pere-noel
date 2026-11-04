@@ -386,10 +386,10 @@ const RAW=`🧸|Un gros doudou tout doux|0-3|1|peluche calme animaux|Un compagno
 🐶|Un chiot en peluche qui marche et aboie|2-6|2|peluche electronique animaux|Il remue la queue et suit son maître.
 🐴|Un cheval à bascule|2-5|3|animaux calme|Au galop dans le salon !
 🐱|Un animal interactif qui réagit aux câlins|4-9|3|electronique animaux peluche|Il ronronne, bouge et répond.
-🎮|Une console de jeux vidéo|7-14|4|jeuvideo electronique|Pour jouer sur écran (avec modération).
+🎮|Une console de jeux vidéo|7-14|4|jeuvideo electronique television|Pour jouer sur écran (avec modération).
 🎧|Un casque audio pour enfant|6-14|2|musique electronique|Volume limité pour protéger les oreilles.
-📷|Un appareil photo d'enfant|5-12|2|creatif electronique|Pour photographier le monde à sa façon.
-⌚|Une montre connectée pour enfant|6-12|2|electronique|Chronomètre, jeux et réveil.
+📷|Un appareil photo d'enfant|5-12|2|creatif electronique nomade|Pour photographier le monde à sa façon.
+⌚|Une montre connectée pour enfant|6-12|2|electronique nomade|Chronomètre, jeux et réveil.
 🔦|Un projecteur d'étoiles pour la chambre|3-10|2|espace electronique calme|Le ciel étoilé au plafond.
 🌈|Une veilleuse magique|2-6|1|electronique calme|Des couleurs douces pour s'endormir.
 🎪|Un théâtre de marionnettes|3-9|2|deguisement creatif|On invente des histoires et on joue la pièce.
@@ -407,8 +407,76 @@ const RAW=`🧸|Un gros doudou tout doux|0-3|1|peluche calme animaux|Un compagno
 🚒|Un camion de pompiers|3-8|2|vehicule heros|Gyrophare et échelle pour sauver la ville.
 🚁|Un hélicoptère de sauvetage|3-8|2|vehicule heros|Pour des missions de secours.
 ✈️|Un avion planeur à monter|8-14|2|vehicule construire exterieur|On le construit puis on le lance.
-🏴‍☠️|Un bateau de pirates|3-8|2|vehicule heros construire|Trésors, canons et bateau à explorer.`;
-const TOYS=RAW.split('\n').map((l,i)=>{const [e,n,ag,p,tg,d]=l.split('|');const [a,b]=ag.split('-').map(Number);return {i,e,n,a,b,p:+p,tags:new Set(tg.split(' ')),d}});
+🏴‍☠️|Un bateau de pirates|3-8|2|vehicule heros construire|Trésors, canons et bateau à explorer.
+📱|Un téléphone portable (smartphone)|8-14|4|techno telephone electronique jeuvideo nomade|Pour appeler, écrire, prendre des photos et jouer.|portable telephone smartphone mobile gsm
+📱|Un iPhone|9-14|4|techno telephone electronique jeuvideo nomade|Le téléphone d'Apple, avec un bel écran et un super appareil photo.|iphone apple portable telephone
+📱|Un smartphone Samsung Galaxy|9-14|4|techno telephone electronique jeuvideo nomade|Un téléphone Android avec un grand écran.|samsung galaxy android portable telephone xiaomi
+📞|Un premier téléphone simple pour enfant|6-10|3|techno telephone electronique nomade|Un petit téléphone sécurisé pour appeler papa et maman.|portable telephone enfant simple
+⌚|Une montre connectée|8-14|3|techno electronique nomade|Elle donne l'heure, compte les pas et sonne.|montre connectee apple watch
+💻|Un ordinateur portable|10-14|4|techno electronique jeuvideo nomade|Pour travailler, dessiner et jouer.|ordinateur pc laptop mac
+📲|Une tablette tactile|6-14|3|techno electronique jeuvideo creatif nomade|Un grand écran pour regarder, jouer et dessiner.|tablette ipad
+🧒|Une tablette pour enfant avec protection|4-9|3|techno electronique jeuvideo nomade|Une tablette solide avec contrôle des parents.|tablette enfant
+🎮|Une Nintendo Switch|6-14|4|techno jeuvideo electronique duo nomade television|La console qu'on emporte partout et qui se branche à la télé.|switch nintendo console mario
+🎮|Une PlayStation 5|9-14|4|techno jeuvideo electronique duo television|Une console de salon très puissante.|playstation ps5 sony console
+🎮|Une Xbox|9-14|4|techno jeuvideo electronique duo television|Une console de salon pour jouer seul ou en ligne.|xbox microsoft console
+🕹️|Une console portable|7-14|3|techno jeuvideo electronique nomade|Une console qui tient dans la poche.|console portable game boy steam deck
+🎮|Une manette supplémentaire|7-14|2|techno jeuvideo electronique duo television|Pour jouer à deux sur la console.|manette joystick
+💿|Un jeu vidéo à choisir|6-14|2|techno jeuvideo electronique duo television|Un nouveau jeu pour la console.|jeu video minecraft fifa mario pokemon fortnite roblox
+🥽|Un casque de réalité virtuelle|10-14|4|techno jeuvideo electronique television|Pour se promener dans des mondes virtuels.|casque vr realite virtuelle oculus meta quest
+🎧|Un casque audio sans fil|8-14|3|techno electronique musique nomade|Pour écouter sa musique sans fil.|casque audio bluetooth
+🎧|Des écouteurs sans fil|8-14|3|techno electronique musique nomade|Petits, pratiques, avec une belle sonorité.|ecouteurs airpods bluetooth
+🔊|Une enceinte bluetooth|7-14|2|techno electronique musique bruyant nomade|De la musique partout, même dans le jardin.|enceinte haut parleur bluetooth
+📷|Un appareil photo instantané|7-14|3|techno electronique creatif nomade|On prend la photo et elle sort tout de suite.|appareil photo polaroid instax
+🎥|Une caméra d'action|10-14|3|techno electronique sport exterieur nomade|Pour filmer ses exploits et ses balades.|camera gopro video
+📚|Une liseuse|8-14|3|techno electronique livre calme nomade|Des centaines de livres dans une seule tablette.|liseuse kindle livre
+🎤|Une station de karaoké avec lumières|6-13|3|techno electronique musique bruyant|Pour chanter fort avec des effets de lumière.|karaoke micro chanter
+🛏️|Un oreiller moelleux|3-14|1|maison calme|Pour des nuits tout en douceur.|oreiller coussin lit dormir
+🛌|Une couette bien chaude|3-14|2|maison calme|Pour être au chaud dans son lit.|couette duvet lit dormir
+🛌|Une parure de lit avec son héros préféré|3-14|2|maison calme heros|Housse de couette et taie d'oreiller à motifs.|parure housse couette drap lit
+🧣|Un plaid tout doux|3-14|1|maison calme peluche|Pour se blottir sur le canapé.|plaid couverture
+🛋️|Un pouf ou un fauteuil gonflable|5-14|2|maison calme|Pour lire et se détendre dans sa chambre.|pouf fauteuil sac gonflable
+💡|Une lampe de chevet ou une guirlande lumineuse|4-14|1|maison electronique calme|Pour décorer et éclairer la chambre.|lampe veilleuse guirlande chambre
+🧸|Un coussin doudou géant|2-10|2|maison peluche calme|Un énorme coussin pour les câlins.|coussin doudou
+🖥️|Un bureau avec sa chaise|6-14|4|maison calme creatif|Pour faire ses devoirs et dessiner.|bureau chaise chambre
+🩴|Des chaussons doudou|2-14|1|vetement chaussures maison calme|Pour avoir bien chaud aux pieds.|chaussons pantoufles
+👟|Une paire de baskets|5-14|3|vetement chaussures sport|Pour courir, sauter et être à la mode.|baskets chaussures sneakers nike adidas
+⚽|Des chaussures de foot|6-14|3|vetement chaussures sport exterieur|Pour marquer des buts.|crampons chaussures foot
+🥾|Des bottes de pluie ou de neige|2-12|2|vetement chaussures exterieur|Pour sauter dans les flaques.|bottes pluie neige
+🩰|Des chaussures de danse|4-14|2|vetement chaussures sport|Pour danser comme une étoile.|danse ballerines chaussons
+👕|Un sweat à capuche|6-14|2|vetement|Bien chaud et à la mode.|sweat pull hoodie vetement
+⚽|Un maillot de foot de son équipe|5-14|2|vetement sport|Aux couleurs de l'équipe préférée.|maillot foot equipe
+🌙|Un pyjama rigolo|2-14|1|vetement maison calme|Pour faire de beaux rêves.|pyjama nuit
+🧥|Un manteau ou une doudoune|3-14|3|vetement exterieur|Pour affronter l'hiver bien au chaud.|manteau doudoune blouson veste
+🧤|Un bonnet, une écharpe et des gants|2-14|1|vetement exterieur|Pour ne pas avoir froid.|bonnet echarpe gants
+👖|Un jean ou un jogging|4-14|2|vetement|Des vêtements confortables.|jean jogging pantalon vetement
+👗|Une belle tenue de fête|3-12|2|vetement deguisement|Pour briller aux fêtes.|robe tenue fete
+🧢|Une casquette ou un chapeau|4-14|1|vetement mode|Pour avoir du style.|casquette chapeau
+🎒|Un sac à dos|5-14|2|sac nomade|Pour emporter tous ses trésors.|sac a dos cartable ecole
+✏️|Une trousse garnie|6-12|1|sac creatif|Stylos, crayons et feutres tout neufs.|trousse stylos ecole
+💄|Un kit de maquillage pour enfant|5-12|1|mode creatif|Pour se déguiser et se faire belle.|maquillage
+💍|Des bijoux et un coffret à bijoux|5-14|2|mode|Des colliers et des bracelets à ranger.|bijoux collier bracelet coffret
+💅|Du vernis et un kit manucure|6-14|1|mode creatif|Des couleurs pour les ongles.|vernis ongles manucure
+🕶️|Des lunettes de soleil|4-14|1|mode vetement|Pour avoir la classe.|lunettes soleil
+🧴|Un coffret de soins et de beauté|9-14|2|mode calme|Des produits doux pour prendre soin de soi.|soin beaute creme parfum
+🃏|Des cartes à collectionner|6-14|1|jeu_societe duo|Pour collectionner et échanger avec les copains.|cartes pokemon panini yu gi oh
+🧱|Une grande boîte de briques technique|8-14|3|construire science|Des engins qui bougent à construire.|lego technic
+📖|Un manga ou une bande dessinée|8-14|1|livre calme|Des aventures à dévorer.|manga bd bande dessinee
+🎲|Un jeu de société pour grands enfants|10-14|2|jeu_societe duo puzzle|Stratégie et fous rires à plusieurs.|jeu societe ados
+🎹|Un piano électronique|5-14|3|musique electronique|Pour apprendre à jouer de la musique.|piano clavier
+🎸|Une vraie guitare|8-14|3|musique|Pour jouer ses chansons préférées.|guitare
+🥁|Une batterie électronique|8-14|4|musique bruyant electronique|Pour faire le batteur.|batterie
+🎁|Une carte cadeau|8-14|2|techno|Pour choisir lui-même son cadeau.|carte cadeau bon achat
+🚁|Un vrai drone avec caméra|10-14|4|techno telecommande electronique exterieur|Pour filmer d'en haut.|drone camera
+🛹|Un hoverboard ou une trottinette électrique|10-14|4|vehicule electronique exterieur sport techno|Pour rouler très vite.|hoverboard trottinette electrique
+🏀|Un ballon de basket|5-14|1|sport exterieur duo|Pour s'entraîner et jouer avec les copains.|basket ballon
+🏓|Un jeu de tennis de table|7-14|3|sport duo|À jouer en famille.|ping pong tennis de table
+🥋|Une tenue de sport et d'arts martiaux|5-14|2|sport vetement|Pour s'entraîner comme un champion.|judo karate kimono sport
+🧸|Une grande peluche à son nom|2-14|2|peluche calme|Une peluche à câliner toute l'année.|peluche nounours
+🧩|Un puzzle de 1000 pièces|10-14|2|puzzle calme|Un grand défi pour les patients.|puzzle 1000
+🧪|Un kit de fabrication de parfums et de savons|7-14|2|creatif science mode|On invente ses propres produits.|savon parfum kit
+🔭|Un kit d'astronome|9-14|3|espace science techno|Pour regarder la Lune et les planètes.|astronomie telescope
+🎬|Un kit de youtubeur avec trépied et micro|9-14|3|techno creatif electronique|Pour filmer des vidéos.|youtube video micro trepied`;
+const TOYS=RAW.split('\n').map((l,i)=>{const [e,n,ag,p,tg,d,kw]=l.split('|');const [a,b]=ag.split('-').map(Number);return {i,e,n,a,b,p:+p,tags:new Set(tg.split(' ')),d,kw:kw||''}});
 const Q2={ /* question ; ce que le Père Noël retient si oui ; si non */
   construire:["Ton cadeau, est-ce qu’on peut construire des choses avec ?","Avec ton cadeau, on construit des choses","Ton cadeau, ce n’est pas pour construire"],
   creatif:["Ton cadeau, est-ce qu’il sert à dessiner ou à colorier ?","Ton cadeau sert à dessiner et à colorier","Ton cadeau, ce n’est pas pour dessiner"],
@@ -433,13 +501,22 @@ const Q2={ /* question ; ce que le Père Noël retient si oui ; si non */
   jeuvideo:["Ton cadeau, est-ce qu’il a un écran ?","Ton cadeau a un écran","Ton cadeau n’a pas d’écran"],
   calme:["Ton cadeau, est-ce qu’on y joue tranquillement, bien assis ?","Ton cadeau, c’est pour jouer tranquillement","Ton cadeau, c’est pour bouger"],
   bruyant:["Ton cadeau, est-ce qu’il fait du bruit ?","Ton cadeau fait du bruit","Ton cadeau ne fait pas de bruit"],
+  techno:["Ton cadeau, est-ce que c’est un appareil électronique, comme un téléphone, une tablette ou une console ?","Ton cadeau est un appareil électronique","Ton cadeau n’est pas un appareil électronique"],
+  telephone:["Ton cadeau, est-ce que c’est un téléphone portable ?","Ton cadeau, c’est un téléphone portable","Ton cadeau n’est pas un téléphone"],
+  vetement:["Ton cadeau, est-ce qu’on peut le porter, comme un vêtement ou des chaussures ?","Ton cadeau, c’est à porter","Ton cadeau n’est pas à porter"],
+  chaussures:["Ton cadeau, est-ce que ce sont des chaussures ?","Ton cadeau, ce sont des chaussures","Ton cadeau, ce ne sont pas des chaussures"],
+  maison:["Ton cadeau, est-ce que c’est pour ta chambre ou pour ton lit ?","Ton cadeau, c’est pour ta chambre ou ton lit","Ton cadeau n’est pas pour ta chambre"],
+  mode:["Ton cadeau, est-ce que c’est pour se faire beau ou belle, comme des bijoux ou du maquillage ?","Ton cadeau, c’est pour se faire beau ou belle","Ton cadeau n’est pas pour se faire beau"],
+  sac:["Ton cadeau, est-ce que c’est un sac ou une trousse pour ranger tes affaires ?","Ton cadeau, c’est un sac ou une trousse","Ton cadeau n’est pas un sac"],
+  nomade:["Ton cadeau, est-ce qu’on peut l’emporter partout avec soi, dans la poche ou dans le sac ?","Ton cadeau, on peut l’emporter partout","Ton cadeau, on ne l’emporte pas partout"],
+  television:["Ton cadeau, est-ce qu’il se branche sur la télévision ?","Ton cadeau se branche sur la télévision","Ton cadeau ne se branche pas sur la télévision"],
   duo:["Ton cadeau, est-ce qu’on y joue à plusieurs ?","Ton cadeau, c’est pour jouer à plusieurs","Ton cadeau, c’est pour jouer tout seul"]};
 const QUESTIONS={};for(const k in Q2)QUESTIONS[k]=Q2[k][0];
 const TAGS=Object.keys(QUESTIONS);
 
 /* =====================  SONS  ===================== */
 let AC=null;function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();if(AC&&!musicOn&&prefs.music!==false&&typeof startMusic==='function')startMusic();return AC}
-function tone(f,t=0,d=.25,type='sine',v=.14){const c=ac();if(!c||!prefs.sfx)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;const s=c.currentTime+t;g.gain.setValueAtTime(.0001,s);g.gain.linearRampToValueAtTime(v,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(c.destination);o.start(s);o.stop(s+d+.05)}
+let LISTEN=false,TONE_OK=false;function tone(f,t=0,d=.25,type='sine',v=.14){const c=ac();if(!c||!prefs.sfx)return;if(LISTEN&&!TONE_OK)return;const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;const s=c.currentTime+t;g.gain.setValueAtTime(.0001,s);g.gain.linearRampToValueAtTime(v,s+.02);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(c.destination);o.start(s);o.stop(s+d+.05)}
 const sfx={jingle(){[784,988,1175,1568,1175,1568].forEach((f,i)=>tone(f,i*.11,.5,'triangle'))},pop(){tone(520,0,.08,'square',.06)},ding(){tone(1318,0,.4,'triangle')},boing(){tone(320,0,.18);tone(200,.1,.25)},oops(){tone(300,0,.2,'sawtooth',.06);tone(220,.15,.3,'sawtooth',.06)}};
 
 /* =====================  VOIX  ===================== */
@@ -509,7 +586,7 @@ function duck(on){if(MG&&AC)MG.gain.setTargetAtTime(on?.035:.11,AC.currentTime,.
 function syncMusicBtn(){const b=$('#bMusic');if(b)b.textContent=prefs.music!==false?'🎵':'🔇'}
 let sayTok=0,speaking=false;
 function setLine(who,text,sub){$('#say').innerHTML=`<div class="who">${who==='mrs'?'Mère Noël':'Père Noël'}</div><p>${esc(text)}</p>${sub?`<div class="sub">${sub}</div>`:''}`}
-async function say(who,text,o){o=o||{};const tok=++sayTok;if(who==='santa')noteSeen(text);stopSpeech();if(!o.bubble)lastTalk=performance.now();
+async function say(who,text,o){o=o||{};if(LISTEN&&who!=='santa')return;const tok=++sayTok;if(who==='santa')noteSeen(text);stopSpeech();if(!o.bubble)lastTalk=performance.now();
   $('#santa').classList.remove('talk');$('#mrs').classList.remove('talk');
   if(o.bubble&&$('#card')&&!$('#card').hidden){/* papier affiché : pas de bulle par-dessus, la voix suffit */}
   else if(o.bubble){const b=$('#bubble');b.textContent=text;b.hidden=false;clearTimeout(say.bt);say.bt=setTimeout(()=>{b.hidden=true},Math.max(2200,text.length*70))}
@@ -2840,7 +2917,7 @@ function bindElf(e){let sx=0,sy=0,dragged=false,box=e.el.querySelector('.eb'),on
     if(e.st!=='held')return;setCls(e,'held',false);e.st='drop';e.vy=0;e.landY=Math.min(1285,Math.max(1050,e.y+20));
     if(e.home){e.tx=e.home[0];e.ty=e.home[1]}else{e.tx=e.x;e.ty=e.landY}};
   box.addEventListener('pointerup',up);box.addEventListener('pointercancel',up)}
-function elfSay(e,txt,force){if(running&&!force)return;const b=document.createElement('div');b.className='ebub';b.textContent=txt;const p=toStage(e.x,e.y-EH*KY(e.y)*1.05);b.style.left=p[0]+'px';b.style.top=p[1]+'px';layer.appendChild(b);setTimeout(()=>b.remove(),1600)}
+function elfSay(e,txt,force){if(LISTEN)return;if(running&&!force)return;const b=document.createElement('div');b.className='ebub';b.textContent=txt;const p=toStage(e.x,e.y-EH*KY(e.y)*1.05);b.style.left=p[0]+'px';b.style.top=p[1]+'px';layer.appendChild(b);setTimeout(()=>b.remove(),1600)}
 function sparkle(cx,cy,chars,n){const r=stage.getBoundingClientRect();for(let i=0;i<(n||8);i++){const e=document.createElement('span');e.className='spark';e.textContent=pick(chars);e.style.left=(cx-r.left+rand(-18,18))+'px';e.style.top=(cy-r.top+rand(-8,8))+'px';e.style.setProperty('--dx',rand(-50,50)+'px');e.style.animationDelay=rand(0,.25)+'s';stage.appendChild(e);setTimeout(()=>e.remove(),1500)}}
 
 /* =====================  MISE EN ROUTE  ===================== */
@@ -3028,8 +3105,11 @@ function parentSpace(){const l=store.get('list',[]);const who=(l[0]&&l[0].w)||pr
     box.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const t=l[+b.dataset.s];closeDlg();showShops(t,parentSpace)});
     box.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const a=store.get('list',[]);a.splice(+b.dataset.d,1);store.set('list',a);closeDlg();parentSpace()})})}
 /* ====== un cadeau qui n'est pas dans le catalogue ====== */
+const normT=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,' ');
+function searchToy(q){const stop=['une','des','les','pour','avec','mon','son','veux','voudrais','aimerais','cadeau','jouet','petit','petite','grand','grande','tout','tous','mes','qui','que','dans','sur'];const w=normT(q).split(/\s+/).map(x=>x.length>3?x.replace(/[sx]$/,''):x).filter(x=>x.length>=3&&!stop.includes(x));if(!w.length)return null;let best=null,bs=0;
+  for(const t of TOYS){const h=' '+normT((t.kw||'')+' '+t.n)+' ';let sc=0;for(const x of w){if(h.includes(' '+x))sc+=2;else if(x.length>4&&h.includes(x.slice(0,-1)))sc+=1}if(sc>bs){bs=sc;best=t}}return bs>=2?best:null}
 function customGift(){stopSpeech();if(store.get('list',[]).length>=10){toast('Ta liste est pleine : dix cadeaux, c’est parfait.');return}
-  dialog('Je veux autre chose',`<p>Écris le cadeau que tu veux (un grand peut t\u2019aider) :</p><input type="text" id="cg" maxlength="60" autocomplete="off" placeholder="Par exemple : un circuit de billes">`,[['Annuler'],['Ajouter à ma liste',()=>{const v=($('#cg').value||'').trim();if(!v)return;closeDlg();if(!G)newGame();$('#card').hidden=true;accept({e:'🎁',n:v,d:'',p:1,i:-1,tags:new Set()})},true]],box=>setTimeout(()=>$('#cg').focus(),200))}
+  dialog('Je veux autre chose',`<p>Écris le cadeau que tu veux (un grand peut t\u2019aider) :</p><input type="text" id="cg" maxlength="60" autocomplete="off" placeholder="Par exemple : un circuit de billes">`,[['Annuler'],['Ajouter à ma liste',()=>{const v=($('#cg').value||'').trim();if(!v)return;closeDlg();if(!G)newGame();$('#card').hidden=true;const m=searchToy(v);if(m&&!G.proposed.has(m.i)){running=true;propose(m);return}accept({e:'🎁',n:v,d:'',p:1,i:-1,tags:new Set()})},true]],box=>setTimeout(()=>$('#cg').focus(),200))}
 
 /* =====================  ÉCRANS DU PANNEAU  ===================== */
 function showHome(){const gl=$('#globe');if(gl)gl.remove();running=false;G=null;$('#card').hidden=true;stopSpeech();$('#santa').classList.remove('talk');
@@ -3098,14 +3178,15 @@ function confirmName(nm){const q='Tu t’appelles '+nm+', c’est bien ça ?';
 function askAge(){const q=NM('Dis-moi, {n}, quel âge as-tu ?','Dis-moi, quel âge as-tu ?');const ages=[];for(let a=1;a<=14;a++)ages.push(a);
   $('#say').innerHTML=`<div class="who">Père Noël</div><p>${esc(q)}</p><div class="chips" id="ages">${ages.map(a=>`<button class="chip" data-a="${a}">${a===14?'14 et +':a}</button>`).join('')}</div>`;
   $('#btns').innerHTML='';
-  $('#ages').querySelectorAll('.chip').forEach(c=>c.onclick=async()=>{ac();sfx.pop();prefs.age=+c.dataset.a;savePrefs();$('#ages').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));
-    const a=prefs.age;const line=a<=3?NM('{n}, tu es encore tout petit. Demande à papa ou à maman de t’aider à répondre.','Tu es encore tout petit. Demande à papa ou à maman de t’aider à répondre.'):NM('{n}, '+a+' ans. Très bien.','Tu as '+a+' ans. Très bien.');
-    $('#ages').querySelectorAll('.chip').forEach(x=>x.disabled=true);await say('santa',line,{keep:true});begin(false)});
+  const commit=async a=>{if(!$('#ages'))return;ac();sfx.pop();prefs.age=a;savePrefs();$('#ages').querySelectorAll('.chip').forEach(x=>{x.classList.toggle('on',+x.dataset.a===a);x.disabled=true});$('#btns').innerHTML='';
+    const line=a<=3?NM('{n}, tu es encore tout petit. Demande à papa ou à maman de t’aider à répondre.','Tu es encore tout petit. Demande à papa ou à maman de t’aider à répondre.'):NM('{n}, '+a+' ans. Très bien.','Tu as '+a+' ans. Très bien.');
+    await say('santa',line,{keep:true});begin(false)};
+  $('#ages').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{ac();sfx.pop();const a=+c.dataset.a;$('#ages').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));$('#btns').innerHTML=`<button class="btn go wide" id="ageok">${IC('btn-oui')}C’est bon : ${a===14?'14 ans et plus':a+' ans'}</button>`;$('#ageok').onclick=()=>commit(a)});
   (async()=>{await say('santa',q,{keep:true});
     for(let tries=0;tries<2;tries++){if(!$('#ages'))return;const a=await voiceListen(parseAge,{hint:'Dis ton âge'});if(!a||!$('#ages'))return;
       {const pp=$('#say p');if(pp)pp.textContent='Tu as '+a+' ans, c’est bien cela ?'}await say('santa','Tu as '+a+' ans, c’est bien cela ?',{keep:true});if(!$('#ages'))return;
       const c=await voiceListen(parseYN,{hint:'Dis : oui, ou non'});if(!$('#ages'))return;
-      if(c==='yes'||c==='py'){const ch=$('#ages .chip[data-a="'+a+'"]');if(ch)ch.click();return}
+      if(c==='yes'||c==='py'){commit(a);return}
       if(!c)return;{const pp=$('#say p');if(pp)pp.textContent='Pardon. Redis-moi ton âge.'}await say('santa','Pardon. Redis-moi ton âge.',{keep:true})}})()}
 async function begin(again){if(store.get('list',[]).length>=10){toast('Ta liste est pleine : dix cadeaux, c’est parfait.');return}ac();document.body.classList.toggle('tiny',!!prefs.age&&prefs.age<=5);running=true;newGame();$('#btns').innerHTML='';
   if(!quiet){calmElves();await sleep(600);if(!running)return}
@@ -3147,7 +3228,7 @@ setTimeout(()=>{loadRecordings().catch(()=>{})},600);
 async function saveRecording(k,blob){await idbPut('rec:'+k,blob);const a=recIdx();let ok=true;if(!a.includes(k)){a.push(k);ok=store.set('recidx',a)}VOICE[k]=URL.createObjectURL(blob);return ok}
 async function removeRecording(k){await idbDel('rec:'+k);store.set('recidx',recIdx().filter(x=>x!==k));delete VOICE[k]}
 /* liste complète des phrases du Père Noël */
-const BASE_PHRASES=['Tadaaa ! Voilà : un cadeau ! Est-ce que c’est bien ça ?','Chut… mes lutins me soufflent quelque chose. Est-ce que c’est ça ?','Hmm, hmm… Eurêka ! Dis-moi, c’est bien ton cadeau ?','Ho ho ho ! Ma machine à cadeaux s’est arrêtée. C’est ça ?','Attends, que je remette mes lunettes… Oui !','Mon petit doigt me dit que j’ai deviné.','Oups ! Je me suis trompé. Mes lutins ont dû mal me souffler.','Zut ! Ma machine à cadeaux a un petit souci. On reprend !','Ah ! Pas celui-là. Je réfléchis encore un peu.','Oh, la boulette ! Je cherche autre chose.','Hourra ! Je l’écris tout de suite.','Ho ho ho ! J’ai trouvé ! Je le note vite.','Voilà qui est parfait. Où est ma plume ?','Ah, quel beau choix ! Je l’inscris.','Les lutins vont être contents. Je le note !','Touche le gros bouton vert pour dire oui.','Je suis là, mon petit. Oui, ou non ?','Oui, ou non ?','Prends ton temps, je t’écoute.','Bravo !','Super !','Bien joué !','Oh là là ! Mon mur ! Rodolphe, doucement !','Mon mur ! Bon… lutins, réparez-moi ça !','Approche-toi un peu du téléphone, mon enfant.','Tu peux aussi écrire ta réponse avec le petit clavier.','Je n’entends pas bien. Écris ta réponse avec le clavier, ou touche un bouton.','Je n’ai pas compris. Essaie encore, ou touche un bouton.',...INTROS.flat(),'Bip, bip… Robot chercheur de cadeaux, en service.','Oups ! La boulette !','Ho ho ho ! Je veux dire… Bonjour, mon enfant !','Ho ho ho ! Bonjour, mon enfant. Viens près de moi !','Je suis le Père Noël. Ici, c’est mon atelier, avec mes lutins.','Je vais te poser des questions pour trouver ton cadeau. Tu réponds juste oui, ou non.','Tu veux que je t’aide à trouver ton cadeau de Noël ?','Ho ho ho, comme tu veux. Reviens me voir quand tu auras envie !','Hmm… laisse-moi réfléchir…','Voyons voir…','Hmm… je réfléchis…','Alors… voyons…','Voici d’autres idées. Touche celle que tu préfères !','Très bien. Je l’inscris sur mon papier. Ho ho ho !','Ta liste est pleine : dix cadeaux, c’est parfait. Je ne peux pas en noter plus.','Je n’ai pas bien entendu. Peux-tu répéter ?','Pardon, peux-tu répéter ?','Parle un peu plus fort, mon enfant : je n’entends pas bien.','Je n’entends pas bien. C’est mieux que tu m’aides : touche un bouton, s’il te plaît.','Je n’ai pas bien entendu. Tu peux toucher un bouton !','Comme tu voudras, mon enfant.','Très bien.','Pardon. Redis-moi ton âge.','Dis-moi ton prénom, ou touche « Je préfère ne pas le dire ».','Oui ? Je t’écoute.','Ho ho ho.','Ah, tu es là.','Doucement avec ma barbe.','Oui, je suis là.','Une étoile filante ! Fais un vœu !','Quel beau sapin !','Doucement avec mes lutins !','Ohé, repose-le !','Hihi, il chatouille !','Hmm, merci ma chérie, ils sentent si bon !','Tout va très bien. Je m’occupe des enfants.','Tout va bien, les lutins ?','Doucement avec les marteaux !','Hm, mes lunettes glissent encore.','Un instant, que je remette mes lunettes.','Voilà, je te vois mieux.','Ho ho ho !','Ho ho ho ! Tu m’entends bien ?','Oh là là, Rodolphe ! Les lutins, au nettoyage !','Encore ! Vite, qu’on nettoie !'];
+const BASE_PHRASES=['Je t’écoute, dis-moi.','À toi !','C’est à toi !','À toi de répondre !','Dis-moi !','Tadaaa ! Voilà : un cadeau ! Est-ce que c’est bien ça ?','Chut… mes lutins me soufflent quelque chose. Est-ce que c’est ça ?','Hmm, hmm… Eurêka ! Dis-moi, c’est bien ton cadeau ?','Ho ho ho ! Ma machine à cadeaux s’est arrêtée. C’est ça ?','Attends, que je remette mes lunettes… Oui !','Mon petit doigt me dit que j’ai deviné.','Oups ! Je me suis trompé. Mes lutins ont dû mal me souffler.','Zut ! Ma machine à cadeaux a un petit souci. On reprend !','Ah ! Pas celui-là. Je réfléchis encore un peu.','Oh, la boulette ! Je cherche autre chose.','Hourra ! Je l’écris tout de suite.','Ho ho ho ! J’ai trouvé ! Je le note vite.','Voilà qui est parfait. Où est ma plume ?','Ah, quel beau choix ! Je l’inscris.','Les lutins vont être contents. Je le note !','Touche le gros bouton vert pour dire oui.','Je suis là, mon petit. Oui, ou non ?','Oui, ou non ?','Prends ton temps, je t’écoute.','Bravo !','Super !','Bien joué !','Oh là là ! Mon mur ! Rodolphe, doucement !','Mon mur ! Bon… lutins, réparez-moi ça !','Approche-toi un peu du téléphone, mon enfant.','Tu peux aussi écrire ta réponse avec le petit clavier.','Je n’entends pas bien. Écris ta réponse avec le clavier, ou touche un bouton.','Je n’ai pas compris. Essaie encore, ou touche un bouton.',...INTROS.flat(),'Bip, bip… Robot chercheur de cadeaux, en service.','Oups ! La boulette !','Ho ho ho ! Je veux dire… Bonjour, mon enfant !','Ho ho ho ! Bonjour, mon enfant. Viens près de moi !','Je suis le Père Noël. Ici, c’est mon atelier, avec mes lutins.','Je vais te poser des questions pour trouver ton cadeau. Tu réponds juste oui, ou non.','Tu veux que je t’aide à trouver ton cadeau de Noël ?','Ho ho ho, comme tu veux. Reviens me voir quand tu auras envie !','Hmm… laisse-moi réfléchir…','Voyons voir…','Hmm… je réfléchis…','Alors… voyons…','Voici d’autres idées. Touche celle que tu préfères !','Très bien. Je l’inscris sur mon papier. Ho ho ho !','Ta liste est pleine : dix cadeaux, c’est parfait. Je ne peux pas en noter plus.','Je n’ai pas bien entendu. Peux-tu répéter ?','Pardon, peux-tu répéter ?','Parle un peu plus fort, mon enfant : je n’entends pas bien.','Je n’entends pas bien. C’est mieux que tu m’aides : touche un bouton, s’il te plaît.','Je n’ai pas bien entendu. Tu peux toucher un bouton !','Comme tu voudras, mon enfant.','Très bien.','Pardon. Redis-moi ton âge.','Dis-moi ton prénom, ou touche « Je préfère ne pas le dire ».','Oui ? Je t’écoute.','Ho ho ho.','Ah, tu es là.','Doucement avec ma barbe.','Oui, je suis là.','Une étoile filante ! Fais un vœu !','Quel beau sapin !','Doucement avec mes lutins !','Ohé, repose-le !','Hihi, il chatouille !','Hmm, merci ma chérie, ils sentent si bon !','Tout va très bien. Je m’occupe des enfants.','Tout va bien, les lutins ?','Doucement avec les marteaux !','Hm, mes lunettes glissent encore.','Un instant, que je remette mes lunettes.','Voilà, je te vois mieux.','Ho ho ho !','Ho ho ho ! Tu m’entends bien ?','Oh là là, Rodolphe ! Les lutins, au nettoyage !','Encore ! Vite, qu’on nettoie !'];
 function allPhrases(){const out=[],seen=new Set();const add=(g,t)=>{const k=sentKey(t||'');if(!k||seen.has(k))return;seen.add(k);out.push([g,t.trim()])};
   BASE_PHRASES.forEach(t=>add('Présentation et réactions',t));
   try{Object.values(Q2).forEach(a=>{add('Questions du jeu',a[0]);add('Questions du jeu',a[1]);add('Questions du jeu',a[2])})}catch(e){}
@@ -3191,7 +3272,7 @@ function showDesigner(){
     showV()})}
 
 function showSettings(){const sw=(id,on,l)=>`<div class="row"><div class="grow"><b>${l}</b></div><button class="btn toggle" id="${id}">${on?'Oui':'Non'}</button></div>`;
-  const body=sw('sV',prefs.voice,'Voix du Père Noël')+sw('sX',prefs.text!==false,'Texte écrit à l’écran (sinon : voix seulement)')+sw('sS',prefs.sfx,'Bruitages et clochettes')+sw('sL',prefs.slow,'Parler plus doucement')+sw('sF',prefs.fast,'Parler plus vite')+sw('sSh',prefs.shutter!==false,'Ouverture animée (volet et technicien)')+sw('sM',prefs.music!==false,'Musique de Noël')+sw('sI',prefs.mic!==false,'Le Père Noël écoute les réponses (micro)')+
+  const body=sw('sV',prefs.voice,'Voix du Père Noël')+sw('sX',prefs.text!==false,'Texte écrit à l’écran (sinon : voix seulement)')+sw('sS',prefs.sfx,'Bruitages et clochettes')+sw('sL',prefs.slow,'Parler plus doucement')+sw('sF',prefs.fast,'Parler plus vite')+sw('sSh',prefs.shutter!==false,'Ouverture animée (volet et technicien)')+sw('sTc',prefs.touchChars===true,'Personnages tactiles (sinon seuls les boutons réagissent)')+sw('sM',prefs.music!==false,'Musique de Noël')+sw('sI',prefs.mic!==false,'Le Père Noël écoute les réponses (micro)')+
   `<span class="lab">Budget des idées de cadeaux</span><div class="chips" id="sB">${[[1,'20 € max'],[2,'50 € max'],[3,'100 € max'],[4,'Peu importe']].map(b=>`<button class="chip ${prefs.budget===b[0]?'on':''}" data-b="${b[0]}">${b[1]}</button>`).join('')}</div>
   <span class="lab">Cadre en bois de cabane autour de la scène</span><div class="chips" id="sCab">${[[true,'Avec le cadre'],[false,'Sans le cadre']].map(y=>`<button class="chip ${(prefs.cabin!==false)===y[0]?'on':''}" data-c="${y[0]}">${y[1]}</button>`).join('')}</div>
   <span class="lab">Style des images (l’appli redémarre)</span><div class="chips" id="sY">${[['c','Livre de Noël'],['a','Illustrations'],['b','Dessin fait main']].map(y=>`<button class="chip ${(prefs.style||'c')===y[0]?'on':''}" data-y="${y[0]}">${y[1]}</button>`).join('')}</div>
@@ -3203,7 +3284,7 @@ function showSettings(){const sw=(id,on,l)=>`<div class="row"><div class="grow">
   <div class="row" style="display:block"><b>Les nouveautés</b>${CHANGELOG.map(([v,d,ls])=>`<p class="small"><b>Version ${v}</b> · ${d}</p><ul class="small">${ls.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`).join('')}</div>
   <p class="small">Rien n’est envoyé hors de cet appareil : le prénom, la liste et les réglages restent ici.</p>`;
   dialog('Réglages',body,[['Fermer',()=>{prefs.partner=($('#sP')||{value:''}).value.trim();savePrefs()}]],box=>{
-    const tg=(id,k)=>{$('#'+id).onclick=()=>{prefs[k]=!prefs[k];$('#'+id).textContent=prefs[k]?'Oui':'Non';savePrefs();if(k==='voice'){syncVoiceBtn();if(!prefs.voice)stopSpeech()}}};tg('sV','voice');tg('sS','sfx');$('#sX').onclick=()=>{prefs.text=prefs.text===false;savePrefs();$('#sX').textContent=prefs.text!==false?'Oui':'Non';syncText()};tg('sL','slow');tg('sF','fast');$('#sSh').onclick=()=>{prefs.shutter=prefs.shutter===false;savePrefs();$('#sSh').textContent=prefs.shutter!==false?'Oui':'Non'};tg('sI','mic');$('#sM').onclick=()=>{ac();prefs.music=prefs.music===false;savePrefs();$('#sM').textContent=prefs.music!==false?'Oui':'Non';if(prefs.music===false)stopMusic();else startMusic();syncMusicBtn()};
+    const tg=(id,k)=>{$('#'+id).onclick=()=>{prefs[k]=!prefs[k];$('#'+id).textContent=prefs[k]?'Oui':'Non';savePrefs();if(k==='voice'){syncVoiceBtn();if(!prefs.voice)stopSpeech()}}};tg('sV','voice');tg('sS','sfx');$('#sX').onclick=()=>{prefs.text=prefs.text===false;savePrefs();$('#sX').textContent=prefs.text!==false?'Oui':'Non';syncText()};tg('sL','slow');tg('sF','fast');$('#sTc').onclick=()=>{prefs.touchChars=!prefs.touchChars;savePrefs();$('#sTc').textContent=prefs.touchChars?'Oui':'Non';window.__applyKid&&window.__applyKid()};$('#sSh').onclick=()=>{prefs.shutter=prefs.shutter===false;savePrefs();$('#sSh').textContent=prefs.shutter!==false?'Oui':'Non'};tg('sI','mic');$('#sM').onclick=()=>{ac();prefs.music=prefs.music===false;savePrefs();$('#sM').textContent=prefs.music!==false?'Oui':'Non';if(prefs.music===false)stopMusic();else startMusic();syncMusicBtn()};
     box.querySelectorAll('#sCab .chip').forEach(c=>c.onclick=()=>{prefs.cabin=c.dataset.c==='true';savePrefs();applyCabin();box.querySelectorAll('#sCab .chip').forEach(x=>x.classList.toggle('on',x===c))});
     box.querySelectorAll('#sY .chip').forEach(c=>c.onclick=()=>{if((prefs.style||'c')===c.dataset.y)return;prefs.style=c.dataset.y;savePrefs();setTimeout(()=>location.reload(),150)});
     box.querySelectorAll('#sB .chip').forEach(c=>c.onclick=()=>{prefs.budget=+c.dataset.b;savePrefs();box.querySelectorAll('#sB .chip').forEach(x=>x.classList.toggle('on',x===c))});
@@ -3266,7 +3347,8 @@ const lev=(a,b)=>{const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,i
 function yn2(t){const w=String(t||'').toLowerCase().replace(/[^a-zàâçéèêëîïôûùüœ' ]/g,' ').split(/\s+/).filter(Boolean);let y=0,n=0;for(const x of w){if(x.length<2)continue;if(['oui','ouais','oue','oui oui'].some(k=>lev(x,k)<=(k.length>3?1:0)))y++;if(['non','nan','nom','nonon'].some(k=>lev(x,k)<=(k.length>3?1:0)))n++}return y&&!n?'yes':n&&!y?'no':null}
 function parseYN(t){const L=String(t||'').split(' | ');for(const a of L){const r=yn1(a);if(r)return r}for(const a of L){const r=yn2(a);if(r)return r}return null}
 function mapSpeech(t){return parseYN(t)}
-function parseAge(t){for(const a of String(t||'').toLowerCase().split(' | ')){let m=a.match(/\b(\d{1,2})\b/);if(m&&+m[1]>=1&&+m[1]<=99)return Math.min(14,+m[1]);if(/dix[- ](sept|huit|neuf)/.test(a))return 14;m=a.match(/\b(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize)\b/);if(m)return Math.min(14,NUM[m[1]])}return null}
+const AGEH=[[/\b(h?uit|huits|wit|ouite?|huite|oui t|huis)\b/,8],[/\b(sept|set|sète|sete)\b/,7],[/\b(neuf|neuve|noeuf|nœuf)\b/,9],[/\b(dix|disse|diss)\b/,10],[/\b(onze|once|on ze)\b/,11],[/\b(douze|douce|dous)\b/,12],[/\b(treize|trèze|treise)\b/,13],[/\b(quatorze|catorze)\b/,14],[/\b(quinze)\b/,14],[/\b(six|cis)\b/,6],[/\b(cinq|saint|sain|sinc|seins?)\b/,5],[/\b(quatre|catre)\b/,4],[/\b(trois|troie|trois)\b/,3],[/\b(deux|deu)\b/,2]];
+function parseAge(t){for(const a of String(t||'').toLowerCase().split(' | ')){const hasAns=/\bans?\b|an\b/.test(a);if(hasAns||a.trim().split(/\s+/).length<=3){for(const [r,v] of AGEH)if(r.test(a)&&!/\b\d{1,2}\b/.test(a)&&(hasAns||v>=5||a.trim().split(/\s+/).length<=2))return v}let m=a.match(/\b(\d{1,2})\b/);if(m&&+m[1]>=1&&+m[1]<=99)return Math.min(14,+m[1]);if(/dix[- ](sept|huit|neuf)/.test(a))return 14;m=a.match(/\b(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize)\b/);if(m)return Math.min(14,NUM[m[1]])}return null}
 function parseName(t){for(const a of String(t||'').split(' | ')){const n=cleanChildName(a);if(n&&n.length>=2&&!/^(oui|non|bonjour|salut|euh|heu|je|ma|mon|un|une|le|la|les)$/i.test(n))return n}return null}
 let recCur=null,micDenied=false,vlTok=0;
 const voiceInOn=()=>prefs.mic!==false&&micAvailable()&&!micDenied;
@@ -3294,31 +3376,32 @@ return{fix}})();
 function applyCabin(){document.body.classList.toggle('cabin-off',prefs.cabin===false)}
 setTimeout(applyCabin,0);
 const ageLvl=()=>{const a=prefs.age;return !a?'m':a<=4?'t':a<=8?'m':'g'};
-function yourTurn(){try{const L=ageLvl();if(L==='g'){idleHelp();return}tone(784,0,.18,'triangle',.1);tone(1175,.16,.28,'triangle',.1);const sa=$('#santa');if(sa){sa.classList.add('look');setTimeout(()=>sa.classList.remove('look'),2400)}
+function yourTurn(){try{const L=ageLvl();if(L==='g'){idleHelp();return}TONE_OK=true;tone(784,0,.18,'triangle',.1);tone(1175,.16,.28,'triangle',.1);TONE_OK=false;const sa=$('#santa');if(sa){sa.classList.add('look');setTimeout(()=>sa.classList.remove('look'),2400)}
   let e=$('#turn');if(!e){e=document.createElement('div');e.id='turn';($('#stage')||document.body).appendChild(e)}e.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 4v12m0 0l-5-5m5 5l5-5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>À toi !';e.hidden=false;clearTimeout(yourTurn.t);yourTurn.t=setTimeout(()=>{e.hidden=true},L==='t'?5000:3200);
   if(navigator.vibrate)navigator.vibrate(30);idleHelp()}catch(e){}}
 let idleT=[],idleN=0;function idleStop(){idleT.forEach(clearTimeout);idleT=[];document.querySelectorAll('.btn.nudge').forEach(b=>b.classList.remove('nudge'))}
 function idleHelp(){idleStop();idleN=0;const L=ageLvl();
   const cfg=L==='t'?{nudge:2500,rep:6500,max:3,say:t=>[t,'Touche le gros bouton vert pour dire oui.','Je suis là, mon petit. Oui, ou non ?']}:L==='m'?{nudge:3500,rep:9000,max:2,say:t=>[t,'Oui, ou non ?']}:{nudge:0,rep:25000,max:1,say:t=>['Prends ton temps, je t’écoute.']};
-  const again=()=>{const p=$('#say p'),b=$('#btns .btn');if(!p||!b||document.querySelector('.ov')||speaking){idleT.push(setTimeout(again,3000));return}if(idleN>=cfg.max)return;const ph=cfg.say(p.textContent)[idleN]||'Oui, ou non ?';idleN++;if(cfg.nudge)b.classList.add('nudge');if(idleN>1||L==='g')p.textContent=ph;say('santa',ph,{keep:true});idleT.push(setTimeout(again,cfg.rep))};
+  const again=()=>{const p=$('#say p'),b=$('#btns .btn');if(!p||!b||document.querySelector('.ov')||speaking||LISTEN){idleT.push(setTimeout(again,3000));return}if(idleN>=cfg.max)return;const ph=($('#nm')||$('#ages'))?(idleN>1?'Prends ton temps, je t’écoute.':'Je t’écoute, dis-moi.'):(cfg.say(p.textContent)[idleN]||'Oui, ou non ?');idleN++;if(cfg.nudge)b.classList.add('nudge');if(idleN>1||L==='g')p.textContent=ph;say('santa',ph,{keep:true});idleT.push(setTimeout(again,cfg.rep))};
   if(cfg.nudge)idleT.push(setTimeout(()=>{const b=$('#btns .btn');if(b)b.classList.add('nudge')},cfg.nudge));idleT.push(setTimeout(again,cfg.rep))}
 document.addEventListener('pointerdown',idleStop,true);
+function setListen(on){LISTEN=on;try{if(on){document.querySelectorAll('.ebub').forEach(x=>x.remove());if(MG&&AC)MG.gain.setTargetAtTime(0,AC.currentTime,.05)}else if(MG&&AC&&musicOn)MG.gain.setTargetAtTime(.11,AC.currentTime,.2)}catch(e){}}
 let kbRes=null;
 function kbUI(on,open){let b=$('#kbBtn');if(!on){if(b)b.remove();const r=$('#kbRow');if(r)r.remove();kbRes=null;return}
   if(!b){b=document.createElement('button');b.id='kbBtn';b.type='button';b.setAttribute('aria-label','Écrire la réponse');b.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>';b.onclick=()=>kbUI(true,true);($('#panel')||document.body).appendChild(b)}
   if(open&&!$('#kbRow')){const r=document.createElement('form');r.id='kbRow';r.innerHTML='<input type="text" autocomplete="off" autocapitalize="sentences" enterkeyhint="send" aria-label="Ta réponse" placeholder="Écris ici…"><button type="submit">OK</button>';r.onsubmit=ev=>{ev.preventDefault();const v=r.querySelector('input').value.trim();if(!v)return;let n=0;const go=()=>{if(kbRes){const f=kbRes;kbRes=null;r.querySelector('input').value='';f(v)}else if(n++<40)setTimeout(go,250)};go()};($('#panel')||document.body).appendChild(r);setTimeout(()=>{try{r.querySelector('input').focus()}catch(e){}},50)}}
 async function voiceListen(parse,o){o=o||{};yourTurn();if(!voiceInOn())return null;const my=++vlTok;
-  kbUI(true);const done=v=>{kbUI(false);return v};
+  kbUI(true);const done=v=>{kbUI(false);setListen(false);return v};
   const HINTS=[o.hint||'Je t’écoute…','Parle bien fort…','Approche-toi du téléphone…','Je t’écoute…'];
   for(let k=0;k<4;k++){
-    await sleep(700);if(my!==vlTok)return done(null);
-    micUI(true,HINTS[k]);let fromKb=false;
+    if(k===0){const at=pick(['À toi !','C’est à toi !','À toi de répondre !','Dis-moi !']);await say('santa',at,{keep:true,bubble:false});if(my!==vlTok)return done(null)}
+    setListen(true);micUI(true,HINTS[k]);let fromKb=false;
     const kbP=new Promise(r=>{kbRes=v=>{fromKb=true;r(v)}});
     let txt=await Promise.race([dictate(),kbP]);
     if(fromKb)stopListening();
     if(my!==vlTok)return done(null);
-    if(!fromKb&&(!txt||!parse(txt))){await sleep(900);if(my!==vlTok)return done(null);if(!$('#kbRow')){const t2=await Promise.race([dictate(),kbP]);if(fromKb)stopListening();if(t2)txt=(txt?txt+' | ':'')+t2}}
-    micUI(false);if(my!==vlTok)return done(null);
+    if(!fromKb&&(!txt||!parse(txt))&&!$('#kbRow')){const t2=await Promise.race([dictate(),kbP]);if(fromKb)stopListening();if(t2)txt=(txt?txt+' | ':'')+t2}
+    setListen(false);micUI(false);if(my!==vlTok)return done(null);
     if(micDenied&&!fromKb){toast('Le micro n’est pas disponible ici : touche les boutons.');return done(null)}
     const v=parse(txt);if(v!==null&&v!==undefined)return done(v);
     if(k===0)await say('santa',pick(['Je n’ai pas bien entendu. Peux-tu répéter ?','Pardon, peux-tu répéter ?']),{bubble:!prefs.voice});
@@ -3395,6 +3478,40 @@ document.body.classList.add('shut');try{if((store.get('gag',0)||0)<3&&prefs.shut
 $('#spGo').addEventListener('pointerdown',e=>{e.preventDefault();shEnter()});
 $('#spGo').addEventListener('click',()=>shEnter());
 document.head.insertAdjacentHTML('beforeend','<style>#splash{position:fixed!important;inset:auto;display:block!important;padding:0!important;background:none!important;overflow:hidden!important;z-index:600}#splash[hidden]{display:none!important}\n#shCur{position:absolute;left:0;top:0;width:100%;height:calc(100% + 30px);transform:translateY(0);will-change:transform;touch-action:none;\n background:radial-gradient(ellipse at 22% 30%,rgba(120,60,10,.35),transparent 40%),radial-gradient(ellipse at 78% 68%,rgba(110,50,8,.3),transparent 38%),repeating-linear-gradient(180deg,#f0cf6a 0,#d9aa48 8px,#b98427 22px,#8a5c18 32px,#3d2506 34px),#b98427;box-shadow:inset 14px 0 18px -8px rgba(40,20,0,.7),inset -14px 0 18px -8px rgba(40,20,0,.7),0 10px 22px rgba(0,0,0,.6)}\n#shCur::before,#shCur::after{content:"";position:absolute;top:0;bottom:0;width:20px;background:radial-gradient(circle at 50% 50%,#fbe9a0 0 2px,#5b3a0e 3px,transparent 4.5px) 0 0/20px 34px repeat-y,linear-gradient(90deg,rgba(40,20,0,.55),rgba(40,20,0,.1))}\n#shCur::before{left:0}#shCur::after{right:0;transform:scaleX(-1)}\n#shBar{position:absolute;left:0;right:0;bottom:0;height:34px;background:linear-gradient(#e7c35e,#a8741c 55%,#5d3a0a);border-top:3px solid #3d2506;display:flex;align-items:center;justify-content:center}\n#shBar i{width:64px;height:13px;border-radius:8px;background:linear-gradient(#3d2506,#7a4f12);box-shadow:inset 0 2px 3px rgba(0,0,0,.6),0 1px 0 #f4d97c}\n#shBox{position:fixed;z-index:601;height:24px;background:linear-gradient(#5d3a0a,#d9aa48 30%,#f6dc8a 48%,#a8741c 75%,#3d2506);border-bottom:3px solid #2a1805;box-shadow:0 5px 10px rgba(0,0,0,.5);pointer-events:none}\n.sp-in{position:absolute;left:50%;top:calc(50% - 40px);transform:translate(-50%,-50%) rotate(var(--rot,0deg));width:min(88%,380px);max-width:none;max-height:86%;overflow:auto;background:linear-gradient(#3a2412,#241208);border:3px solid #f0cf6a;border-radius:14px;padding:14px 16px;box-shadow:0 6px 0 #5d3a0a,0 12px 20px rgba(0,0,0,.5),inset 0 0 0 2px #6b4410}\nbody.shut #panel{visibility:hidden}\n.elf.tech .eb{position:relative}.elf.tech .helmet{position:absolute;left:50%;top:1%;width:40%;height:17%;transform:translateX(-50%);background:linear-gradient(#ffe680,#f0b400);border-radius:60% 60% 25% 25%/95% 95% 25% 25%;border:2px solid #8a5c00;z-index:6}\n#santa.rbt{animation:rbtf .36s steps(1) 5}@keyframes rbtf{0%{filter:none}33%{filter:brightness(1.3) saturate(1.4)}66%{filter:contrast(1.2) hue-rotate(-12deg)}}\n</style>');
+
+/* ===== MODE ENFANT : seules les zones prévues réagissent ===== */
+(function(){
+  const now=()=>performance.now();let lock=0,lastOk=0,multi=0;
+  const inZone=t=>t&&t.closest&&t.closest('#btns,#ages,#card,#panel,.ov,#kbBtn,#kbRow,#shCur,#splash,#bList,#bSet,#bMusic,#bVoice,#cabin');
+  const zone=t=>t&&t.closest&&t.closest('#btns,#ages,#card,#panel');
+  const block=e=>{e.preventDefault();e.stopImmediatePropagation()};
+  /* contact trop large (paume), plusieurs doigts */
+  document.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&(e.width>70||e.height>70)){block(e);return}},true);
+  document.addEventListener('touchstart',e=>{if(e.touches.length>1)multi=now()},{capture:true,passive:true});
+  /* verrou après chaque changement d'écran (0,7 s) */
+  const arm=()=>{lock=now()+700};
+  const mo=new MutationObserver(arm);const hook=()=>{['#btns','#ages','#say'].forEach(q=>{const el=$(q);if(el&&!el._mo){el._mo=1;mo.observe(el,{childList:true})}})};hook();setInterval(hook,1500);
+  document.addEventListener('click',e=>{const z=zone(e.target);if(!z)return;
+    if(now()<lock||now()-multi<350){block(e);return}
+    if(now()-lastOk<450){block(e);return}
+    lastOk=now()},true);
+  /* appui long (parents) pour les boutons du haut */
+  ['bList','bSet','bMusic','bVoice'].forEach(id=>{const b=document.getElementById(id);if(!b)return;let t=0,ok=false;
+    b.addEventListener('pointerdown',()=>{ok=false;clearTimeout(t);t=setTimeout(()=>{ok=true;try{navigator.vibrate&&navigator.vibrate(25)}catch(e){}b.classList.add('held')},550)},true);
+    const up=()=>{clearTimeout(t);setTimeout(()=>b.classList.remove('held'),200)};b.addEventListener('pointerup',up,true);b.addEventListener('pointercancel',up,true);
+    b.addEventListener('click',e=>{if(prefs.kidLock===false)return;if(!ok){block(e);toast('Maintiens ton doigt appuyé (réservé aux parents).');return}ok=false},true)});
+  function applyKid(){document.body.classList.toggle('kid',prefs.touchChars!==true)}
+  window.__applyKid=applyKid;applyKid();
+  /* écran toujours allumé : verrou natif du navigateur, sinon vidéo muette en boucle */
+  let wl=null,vid=null;
+  async function keepAwake(){try{if(navigator.wakeLock&&!wl){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}}catch(e){wl=null}
+    try{const K=window.Capacitor&&Capacitor.Plugins&&(Capacitor.Plugins.KeepAwake||Capacitor.Plugins.ScreenOrientation&&null);if(K&&K.keepAwake)K.keepAwake()}catch(e){}
+    if(!wl&&!vid){try{const c=document.createElement('canvas');c.width=c.height=8;const g=c.getContext('2d');const v=document.createElement('video');v.muted=true;v.loop=true;v.setAttribute('playsinline','');v.style.cssText='position:fixed;width:1px;height:1px;opacity:.01;pointer-events:none;left:0;top:0';if(c.captureStream){v.srcObject=c.captureStream(5);document.body.appendChild(v);vid=v;setInterval(()=>{g.fillStyle=Math.random()<.5?'#000':'#010101';g.fillRect(0,0,8,8)},300);v.play().catch(()=>{})}}catch(e){}}
+    else if(vid&&vid.paused)vid.play().catch(()=>{})}
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){wl=null;keepAwake()}});
+  ['pointerdown','touchstart','click'].forEach(t=>document.addEventListener(t,keepAwake,{once:false,passive:true,capture:true}));keepAwake();setInterval(keepAwake,20000);
+})();
+document.head.insertAdjacentHTML('beforeend','<style>body.kid #santaWrap,body.kid #mrsWrap,body.kid #world,body.kid .elf,body.kid .deer,body.kid .prop,body.kid #cabin{pointer-events:none!important}\n#bList.held,#bSet.held,#bMusic.held,#bVoice.held{filter:brightness(1.3)}\n.sp-in{width:min(74%,300px)!important;padding:10px 12px!important}.sp-in .sp-t{font-size:1.15rem!important;margin-bottom:6px!important}.sp-in .sp-s{display:none!important}.sp-in .sp-h{font-size:.7rem!important;margin-top:4px!important}#spGo{min-height:54px!important;font-size:1.1rem!important}\n#ages{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}#ages .chip{min-width:58px;min-height:58px;font-size:1.35rem;font-weight:800}\n</style>');
 })();
 </script>
 
