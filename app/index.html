@@ -2792,7 +2792,58 @@ function crashFx(){try{const st=$('#stage');const f=document.createElement('div'
  t.animate([{transform:'translate(-50%,-50%) rotate(-8deg) scale(.2)',opacity:0},{transform:'translate(-50%,-50%) rotate(-8deg) scale(1.15)',opacity:1,offset:.2},{transform:'translate(-50%,-50%) rotate(-8deg) scale(1)',opacity:1,offset:.75},{transform:'translate(-50%,-60%) rotate(-8deg) scale(1)',opacity:0}],{duration:1700}).onfinish=()=>t.remove();
  const r=st.getBoundingClientRect();sparkle(r.left+r.width*.68,r.top+r.height*.58,['✨','⭐','✨'],16)}catch(e){}}
 function crProp(name,x,y,s,zo,px,py){const el=document.createElement('div');el.className='prop';el.appendChild(mkImg(name,px??.5,py??1));world.appendChild(el);put(el,x,y,s,1,zo||0);return el}
+
+/* ===== le traîneau vole en 3D (couches avec profondeur), puis fonce dans le mur : visible pendant que le Père Noël parle ===== */
+/* traîneau volant en couches 3D : renne lointain, traîneau, renne proche */
+function sleighFlySVG(){
+const O='stroke="#3a1a0c" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"';
+const deer=(id,dark)=>{const c1=dark?'#7a4524':'#a8642f',c2=dark?'#52290f':'#7a4116',bl=dark?'#b58d63':'#e2bf92';
+return `<svg class="fl-l" viewBox="0 0 520 260" width="520" height="260"><defs><linearGradient id="dg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><radialGradient id="rn${id}"><stop offset="0" stop-color="#fff3a0"/><stop offset=".35" stop-color="#ff3b30"/><stop offset="1" stop-color="#ff3b3000"/></radialGradient></defs>
+<g class="fl-deer" transform="translate(${dark?0:10},${dark?-6:0})">
+ <g class="fl-leg b1" style="transform-origin:318px 150px"><path d="M318 150 L304 196 L296 226" fill="none" stroke="${c2}" stroke-width="13" stroke-linecap="round"/><path d="M296 226 l-9 8" stroke="#2a1408" stroke-width="12" stroke-linecap="round"/></g>
+ <g class="fl-leg b2" style="transform-origin:340px 150px"><path d="M340 150 L356 192 L372 214" fill="none" stroke="${c2}" stroke-width="13" stroke-linecap="round"/><path d="M372 214 l9 6" stroke="#2a1408" stroke-width="12" stroke-linecap="round"/></g>
+ <path d="M290 112 Q300 92 340 92 Q388 90 402 112 Q410 142 380 152 Q340 160 300 152 Q276 140 290 112Z" fill="url(#dg${id})" ${O}/>
+ <path d="M302 140 Q340 154 384 140 Q380 152 340 156 Q304 154 302 140Z" fill="${bl}" opacity=".85"/>
+ <path d="M392 108 Q420 92 438 84 L452 104 Q426 118 404 134Z" fill="url(#dg${id})" ${O}/>
+ <g class="fl-head"><path d="M430 76 Q452 60 474 74 Q490 86 486 100 Q474 112 452 108 Q432 102 430 76Z" fill="url(#dg${id})" ${O}/>
+ <path d="M446 100 Q470 108 484 98" fill="none" stroke="${bl}" stroke-width="7" stroke-linecap="round"/>
+ <circle cx="484" cy="92" r="9" fill="#ff3b30" ${O}/><circle cx="484" cy="92" r="24" fill="url(#rn${id})" class="fl-nose"/>
+ <circle cx="462" cy="78" r="5" fill="#fff"/><circle cx="464" cy="78" r="2.4" fill="#111"/>
+ <path d="M446 68 L440 44 L426 34 M440 44 L452 30 M446 68 L458 40 L476 32 M458 40 L462 24" fill="none" stroke="#c8a36a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M440 70 L428 60 Q426 76 440 82Z" fill="${c2}" ${O}/></g>
+ <g class="fl-leg f1" style="transform-origin:394px 146px"><path d="M394 146 L418 176 L440 198" fill="none" stroke="${c2}" stroke-width="13" stroke-linecap="round"/><path d="M440 198 l10 3" stroke="#2a1408" stroke-width="12" stroke-linecap="round"/></g>
+ <g class="fl-leg f2" style="transform-origin:372px 148px"><path d="M372 148 L384 190 L378 224" fill="none" stroke="${c2}" stroke-width="13" stroke-linecap="round"/><path d="M378 224 l10 6" stroke="#2a1408" stroke-width="12" stroke-linecap="round"/></g>
+ <path d="M292 112 Q276 108 272 124 Q282 124 292 128" fill="#f5f0e6" ${O}/>
+ <path d="M300 100 Q340 86 388 96" fill="none" stroke="#e8b923" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
+</g></svg>`};
+const runner=(id)=>`<svg class="fl-l" viewBox="0 0 520 260" width="520" height="260"><path d="M30 216 Q10 214 10 190 M30 216 L250 216 Q280 214 290 196" fill="none" stroke="#f2c14e" stroke-width="9" stroke-linecap="round"/><path d="M30 216 L250 216" fill="none" stroke="#fff3b0" stroke-width="2.4" stroke-linecap="round" transform="translate(0,-2)"/><path d="M70 216 L76 176 M150 216 L152 176 M226 216 L222 176" stroke="#d99a2b" stroke-width="7" stroke-linecap="round"/></svg>`;
+const body=`<svg class="fl-l" viewBox="0 0 520 260" width="520" height="260"><defs><linearGradient id="sb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0453f"/><stop offset="1" stop-color="#a81818"/></linearGradient><linearGradient id="sk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6b3a1b"/><stop offset="1" stop-color="#9c5a2b"/></linearGradient></defs>
+<path d="M30 112 Q26 80 56 76 L60 108 Q54 150 80 176 L238 176 Q276 170 284 130 Q288 112 270 106 L270 84 Q310 84 306 124 Q300 190 244 196 L74 196 Q26 190 30 112Z" fill="url(#sb)" ${O}/>
+<path d="M44 120 Q70 150 88 150 L246 150 Q262 146 274 128" fill="none" stroke="#f2c14e" stroke-width="7" stroke-linecap="round"/>
+<path d="M56 76 L60 108 L270 108 L270 84Z" fill="#7d1010" ${O}/>
+<ellipse cx="102" cy="82" rx="46" ry="36" fill="url(#sk)" ${O}/><path d="M82 62 q20 10 40 0" fill="none" stroke="#3a1a0c" stroke-width="3"/>
+<g transform="translate(160 66)"><rect x="-4" y="-10" width="48" height="42" rx="5" fill="#3d9a5a" ${O}/><path d="M20 -10 V32 M-4 12 H44" stroke="#ffe27a" stroke-width="6"/><path d="M20 -10 q-14 -18 -2 -22 q8 2 2 22 q10 -22 24 -16 q4 6 -24 16" fill="#ffe27a" ${O}/></g>
+<g transform="translate(222 80)"><rect x="-4" y="-6" width="36" height="34" rx="5" fill="#3a7bd5" ${O}/><path d="M14 -6 V28 M-4 10 H32" stroke="#fff" stroke-width="5"/></g>
+<path d="M286 130 Q330 130 352 140" fill="none" stroke="#e8b923" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
+</svg>`;
+return `<div class="fl-3d"><div class="fl-z" style="transform:translateZ(-34px)">${runner(1)}</div><div class="fl-z" style="transform:translateZ(-30px)">${deer('a',true)}</div><div class="fl-z" style="transform:translateZ(0)">${body}</div><div class="fl-z" style="transform:translateZ(30px)">${deer('b',false)}</div><div class="fl-z" style="transform:translateZ(34px)">${runner(2)}</div></div>`}
+
+const FL={on:false,p:null};
+function sleighFlight(){if(FL.on)return FL.p;FL.on=true;
+ const st=$('#stage');if(!st)return Promise.resolve();
+ if(!document.getElementById('flCss')){document.head.insertAdjacentHTML('beforeend','<style id="flCss">#flyBox{position:absolute;left:0;top:0;width:0;height:0;perspective:900px;pointer-events:none;z-index:58}.fl-3d{position:absolute;left:-260px;top:-130px;width:520px;height:260px;transform-style:preserve-3d;will-change:transform}.fl-z{position:absolute;inset:0;transform-style:preserve-3d}.fl-l{position:absolute;left:0;top:0;overflow:visible}.fl-leg{animation:flgal .36s ease-in-out infinite alternate}.fl-leg.b1,.fl-leg.f2{animation-direction:alternate-reverse}@keyframes flgal{from{transform:rotate(-22deg)}to{transform:rotate(26deg)}}.fl-nose{animation:flpul .45s ease-in-out infinite alternate}@keyframes flpul{from{opacity:.55}to{opacity:1}}</style>')}
+ const box=document.createElement('div');box.id='flyBox';box.innerHTML=sleighFlySVG();st.appendChild(box);
+ const el=box.firstChild,r=st.getBoundingClientRect(),W=r.width,H=r.height,sc0=Math.max(.32,Math.min(.6,W/1000));
+ const tgt=toStage(CRX,CRY+30);const tx=tgt[0],ty=tgt[1];
+ const T=(x,y,s,ry,rz,rx)=>'translate3d('+x+'px,'+y+'px,0) scale('+s+') rotateY('+ry+'deg) rotateZ('+rz+'deg) rotateX('+(rx||0)+'deg)';
+ const F=[{transform:T(-.35*W,.16*H,sc0*.8,-24,4,6),offset:0},{transform:T(.18*W,.1*H,sc0,-18,-3,4),offset:.22},{transform:T(.55*W,.18*H,sc0*1.05,-8,-9,2),offset:.42},{transform:T(.82*W,.26*H,sc0*1.1,-16,10,4),offset:.55},{transform:T(.62*W,.34*H,sc0*1.25,18,-14,-6),offset:.7},{transform:T(tx*1.0,ty-.1*H,sc0*1.7,52,-6,0),offset:.88,opacity:1},{transform:T(tx,ty,sc0*2.6,70,0,0),offset:1,opacity:.0}];
+ const D=3800;el.animate(F,{duration:D,easing:'linear',fill:'forwards'});
+ const tm=setInterval(()=>{try{const b=el.getBoundingClientRect();sparkle(b.left+b.width*.25,b.top+b.height*.6,['✨','⭐'],2)}catch(e){}},210);
+ [0,.18,.36].forEach((a,i)=>setTimeout(()=>{for(let n=0;n<4;n++)tone(1400+n*180+i*90,n*.07,.1,'triangle',.05)},a*D));
+ [.55,.62].forEach(a=>setTimeout(()=>{tone(180,0,.18,'sawtooth',.05);tone(150,.12,.18,'sawtooth',.05)},a*D));
+ FL.p=new Promise(res=>setTimeout(()=>{clearInterval(tm);box.remove();res()},D));return FL.p}
 async function crashScene(){if(CR.done||!IMG['c-hole'])return;CR.done=true;CR.on=true;CR.work=0;CR.stage=0;
+  try{await (FL.on?FL.p:sleighFlight())}catch(e){}
   /* 1. le fracas */
   const sl=crProp('c-sleigh-front',CRX,CRY+30,.95,260),dh=crProp('c-deer-head-hole',CRX-60,CRY+10,.68,261),hole=crProp('c-hole',CRX,CRY,.8,-8);CR.els={hole,sl,dh,deb:[]};
   [[720,1010,'c-debris-1'],[850,1000,'c-debris-2'],[790,1022,'c-debris-3']].forEach(d=>CR.els.deb.push(crProp(d[2],d[0],d[1],.8,20)));
@@ -2946,6 +2997,7 @@ function confetti(n){const c=['🎉','✨','⭐','🎊','❄️','🎁'];for(let
 /* =====================  LE JEU DES QUESTIONS  ===================== */
 let G=null;let running=false;
 function newGame(){
+  if(!CR.done)FL.on=false;
   const age=prefs.age||6;
   G={liked:[],lastAns:null,pool:[],asked:new Set(),proposed:new Set(),n:0,minN:5,props:0,cur:null,found:null};
   try{const done=new Set(store.get('list',[]).map(x=>x.n));TOYS.forEach(t=>{if(done.has(t.n))G.proposed.add(t.i)})}catch(e){}
@@ -2990,6 +3042,7 @@ async function answer(a){if(!running||!G||!G.cur)return;const tag=G.cur;G.cur=nu
   applyAnswer(tag,a);$('#btns').innerHTML='';
   /* 1. il répète ce qu'il a compris : l'enfant voit que sa réponse est prise */
   const f=Q2[tag];const PR=ageLvl()==='t'?pick(['Bravo ! ','Super ! ','Bien joué ! ']):'';const conf=PR+(a==='yes'?pick(['Très bien.','D’accord.','Ah !'])+' '+f[1]+'.':a==='no'?pick(['D’accord.','Très bien.'])+' '+f[2]+'.':a==='py'?('Je note : peut-être que '+lf(f[1])+'.').replace('que a','qu’a').replace('que e','qu’e').replace('que i','qu’i').replace('que o','qu’o').replace('que u','qu’u').replace('que é','qu’é'):a==='pn'?('Je note : sans doute que '+lf(f[2])+'.').replace('que a','qu’a').replace('que e','qu’e').replace('que i','qu’i').replace('que o','qu’o').replace('que u','qu’u'):'Ce n’est pas grave. Je vais chercher autrement.');
+  if(!CR.done&&!FL.on&&G.n>=2&&IMG['c-hole'])sleighFlight();
   setLine('santa',conf,`<span class="ansb ${a}">Ta réponse : ${ANSLBL[a]}</span>`);
   await say('santa',conf,{keep:true});if(!running||!G)return;
   if(!CR.done&&G.n>=2&&IMG['c-hole']){await crashScene();if(!running||!G)return}
@@ -3474,16 +3527,34 @@ function shLayout(){const sp=$('#splash');if(!sp||sp.hidden||SH.busy)return;cons
   st.style.transform='translateY('+SH.dy+'px)';SH.H=(side?innerHeight-r.top:r.height+SH.dy)+30;SH.p0=Math.round(Math.min(118,(r.height+SH.dy)*.2));shSet(-SH.p0)}
 function metal(k){try{if(k==='creak'){for(let i=0;i<3;i++)tone(230-i*38,i*.09,.13,'sawtooth',.035)}else if(k==='clank'){tone(95,0,.2,'square',.07);tone(1650,0,.14,'triangle',.05);tone(2400,.03,.1,'triangle',.03)}else if(k==='tick'){tone(130+Math.random()*50,0,.03,'square',.018)}else if(k==='drill'){tone(250,0,.16,'sawtooth',.03);tone(310,.14,.16,'sawtooth',.03);tone(260,.3,.14,'sawtooth',.03)}else if(k==='tap'){tone(180,0,.05,'square',.03);tone(1300,0,.05,'triangle',.02)}}catch(e){}}
 function techSetup(){if(TECH)return;const e=elves.find(x=>x.job==='bench2');if(!e)return;TECH=e;e.task={k:'tech',ph:'work'};e.el.classList.add('tech');const eb=e.el.querySelector('.eb');if(eb&&!eb.querySelector('.helmet')){const h=document.createElement('div');h.className='helmet';eb.appendChild(h)}}
-const GAGV=[{t:['Oh ! Hé !','Hé ! Déjà ?!'],l:['Bip, bip… Robot chercheur de cadeaux, en service.','Oups ! La boulette !'],r:'Ho ho ho ! Je veux dire… Bonjour, mon enfant !'},
- {t:['Pas déjà ! Ma clé !','Attendez, j’ai pas fini !'],l:['Chargement… quatre-vingt-dix-huit pour cent…','Oups ! Ne faites pas attention à ma tête.'],r:'Ho ho ho ! Bonjour, mon enfant !'},
- {t:['Aïe ! Mon doigt !','Hé ! C’est trop tôt !'],l:['Bzzz… Mise à jour terminée.','Oups ! Un peu trop tôt, je crois.'],r:'Ho ho ho ! Bonjour, mon enfant, bienvenue !'}];
+const GAGV=[
+ {k:'robot',t:['Oh ! Hé !','Hé ! Déjà ?!'],l:['Bip, bip… Robot chercheur de cadeaux, en service.','Oups ! La boulette !'],r:'Ho ho ho ! Je veux dire… Bonjour, mon enfant !'},
+ {k:'lights',t:['Pas ce fil-là !','Oups ! Le mauvais fil !'],l:['Allumage des guirlandes… trois, deux, un…','Oups ! Je ne suis pas un sapin !'],r:'Ho ho ho ! Bonjour, mon enfant !'},
+ {k:'boing',t:['Aïe ! Mon doigt !','Attention au ressort !'],l:['Boing, boing… Ressort de rechange installé.','Oups ! Un peu trop de ressort.'],r:'Ho ho ho ! Bonjour, mon enfant, bienvenue !'},
+ {k:'foam',t:['Pas l’extincteur !','Oups ! Ça mousse !'],l:['Pchhh… Je suis un bonhomme de neige.','Oups ! Ce n’était pas de la fumée.'],r:'Ho ho ho ! Bonjour, mon enfant !'},
+ {k:'gifts',t:['Le sac ! Il est ouvert !','Rattrapez les cadeaux !'],l:['Hé ! Les cadeaux ne sont pas encore triés !','Oups ! Surprise, c’est un peu tôt.'],r:'Ho ho ho ! Bonjour, mon enfant !'}];
 function techShock(){const e=TECH;if(!e||!e.task)return;e.gawk=1.5;setCls(e,'gawk',true);setCls(e,'hammer',false);hopE(e);e.dir=1;elfSay(e,pick((window.__gagV||GAGV[0]).t),true);metal('clank');setTimeout(()=>{if(e.task)e.task.ph='flee'},1500)}
+function stageFx(css,dur,anim){const st=$('#stage');if(!st)return null;const d=document.createElement('div');d.style.cssText='position:absolute;pointer-events:none;z-index:44;'+css;st.appendChild(d);if(anim)d.animate(anim,{duration:dur,fill:'forwards'});setTimeout(()=>d.remove(),dur+80);return d}
+function santaPt(h){const p=toStage(SANTA.x,SANTA.y-(h||1)*PXM(SANTA.y));return p}
+function gagSanta(){const k=((window.__gagV||GAGV[0]).k)||'robot';const sa=$('#santa');const P=santaPt(1.0),Pw=WV.sc*PXM(SANTA.y);
+ if(k==='robot')return robotSanta();
+ if(k==='lights'){const cols=['#ff3b30','#ffd23f','#3ddc84','#3aa0ff','#ff7ad9'];for(let n=0;n<14;n++){const a=n/14*Math.PI*2,x=P[0]+Math.cos(a)*Pw*.85,y=P[1]+Math.sin(a)*Pw*.95;const d=stageFx('left:'+(x-6)+'px;top:'+(y-6)+'px;width:12px;height:12px;border-radius:50%;background:'+cols[n%5]+';box-shadow:0 0 14px 5px '+cols[n%5],2600);if(d)d.animate([{opacity:.15},{opacity:1},{opacity:.15}],{duration:360,delay:n*40,iterations:7})}
+  try{$('#stage').animate([{filter:'brightness(1)'},{filter:'brightness(1.5)'},{filter:'brightness(.7)'},{filter:'brightness(1.4)'},{filter:'brightness(1)'}],{duration:900})}catch(e){}
+  if(sa)sa.animate([{transform:'translate(0,0)'},{transform:'translate(-5px,2px)'},{transform:'translate(5px,-2px)'},{transform:'translate(-4px,0)'},{transform:'translate(0,0)'}],{duration:700,iterations:3});
+  [0,90,180,270,360,450].forEach((t,i)=>setTimeout(()=>tone(500+i*160,0,.08,'square',.04),t));return}
+ if(k==='boing'){if(sa)sa.animate([{transform:'translateY(0) scale(1,1)'},{transform:'translateY(14px) scale(1.04,.9)',offset:.12},{transform:'translateY(-96px) scale(.96,1.1)',offset:.35},{transform:'translateY(0) scale(1.05,.92)',offset:.55},{transform:'translateY(-48px) scale(.98,1.05)',offset:.72},{transform:'translateY(0)',offset:.88},{transform:'translateY(-14px)',offset:.94},{transform:'translateY(0)'}],{duration:1900,easing:'ease-in-out'});
+  stageFx('left:'+(P[0]-40)+'px;top:'+(P[1]-Pw*.55)+'px;font:900 clamp(26px,8vw,44px)/1 system-ui,sans-serif;color:#ffd23f;-webkit-text-stroke:3px #7a1d10;white-space:nowrap','1700',[{opacity:0,transform:'scale(.3)'},{opacity:1,transform:'scale(1.1)',offset:.2},{opacity:1,transform:'scale(1)',offset:.7},{opacity:0,transform:'scale(1)'}]).textContent='BOING !';
+  [0,420,880,1250].forEach(t=>{for(let n=0;n<6;n++)setTimeout(()=>tone(180+n*110,0,.05,'triangle',.05),t+n*18)});return}
+ if(k==='foam'){for(let n=0;n<16;n++){const x=P[0]+rand(-.7,.7)*Pw,y=P[1]+rand(-.1,.9)*Pw,r=rand(16,34);setTimeout(()=>{stageFx('left:'+(x-r)+'px;top:'+(y-r)+'px;width:'+r*2+'px;height:'+r*2+'px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#dfeaf5 70%,#b6c7d9);box-shadow:0 2px 6px rgba(0,0,0,.25)',2800,[{transform:'scale(.1)',opacity:0},{transform:'scale(1.15)',opacity:1,offset:.12},{transform:'scale(1)',opacity:1,offset:.75},{transform:'scale(1.05) translateY(10px)',opacity:0}])},n*60)}
+  for(let n=0;n<14;n++)setTimeout(()=>tone(1800+rand(0,900),0,.05,'sawtooth',.02),n*55);return}
+ if(k==='gifts'){const cols=['#e8454a','#3d9a5a','#3a7bd5','#f2c14e','#b86ad9'];for(let n=0;n<9;n++){const x=P[0]+rand(-.9,.9)*Pw,y0=P[1]-Pw*1.1,y1=P[1]+Pw*rand(.3,1.0),w=rand(22,34),c=cols[n%5];setTimeout(()=>{const d=stageFx('left:'+x+'px;top:'+y0+'px;width:'+w+'px;height:'+w*.85+'px;background:'+c+';border:2px solid #3a1a0c;border-radius:4px;box-shadow:inset 0 0 0 '+w*.14+'px rgba(255,255,255,.55) ',2600);if(d){d.animate([{transform:'translateY(0) rotate(0)',opacity:0},{opacity:1,offset:.1},{transform:'translateY('+(y1-y0)+'px) rotate('+rand(-200,200)+'deg)',opacity:1,offset:.7},{transform:'translateY('+(y1-y0)+'px) rotate('+rand(-200,200)+'deg)',opacity:0}],{duration:2400,easing:'cubic-bezier(.3,0,.7,1)'});setTimeout(()=>{tone(300+rand(0,300),0,.06,'triangle',.05)},1500)}},n*150)}
+  [0,150,300].forEach(t=>setTimeout(()=>tone(900,0,.1,'triangle',.05),t));return}}
 function robotSanta(){const sa=$('#santa');if(sa){sa.classList.add('rbt');setTimeout(()=>sa.classList.remove('rbt'),1800)}[0,160,320,520].forEach(t=>setTimeout(()=>{tone(700+Math.random()*500,0,.08,'square',.04)},t));try{const c=toClient(330,SANTA.y-2.1*PXM(SANTA.y));sparkle(c[0],c[1],['✨','⭐'],8)}catch(e){}}
 const ez=(t,m)=>m==='in'?Math.pow(t,1.7):m==='out'?1-Math.pow(1-t,2):.5-.5*Math.cos(Math.PI*t);
 async function shOpen(gag,fast){SH.busy=true;clearInterval(SH.amb);clearInterval(SH.spk);const tr=SH.H+24,k=fast?.5:1;let p=-SH.sy/tr,lastT=0,did={s:0,r:0};const st=$('#stage');
   const seg=[[.12,650,'in'],[.12,260,'hold'],[.34,800,'io'],[.52,520,'io'],[.52,240,'hold'],[.86,650,'io'],[.94,600,'out'],[.94,320,'hold'],[1,430,'io']];
   const set=q=>{if(q>=.7)document.body.classList.remove('shut');shSet(-q*tr);const y=q*tr;st.style.transform='translateY('+(SH.dy*(1-Math.min(1,q*1.05)))+'px)';if(Math.abs(y-lastT)>44){lastT=y;metal('tick')}
-    if(gag&&!did.s&&q>=.5){did.s=1;techShock()}if(gag&&!did.r&&q>=.62){did.r=1;robotSanta()}};
+    if(gag&&!did.s&&q>=.5){did.s=1;techShock()}if(gag&&!did.r&&q>=.62){did.r=1;gagSanta()}};
   metal('creak');
   for(const [to,ms,m] of seg){const from=p;const t0=performance.now();const dur=ms*k;
     await new Promise(res=>{const f=n=>{const t=Math.min(1,(n-t0)/dur);if(m==='hold'){shSet(-from*tr+(Math.random()-.5)*7);$('#shCur').style.setProperty('--rot',((Math.random()-.5)*.5)+'deg');if(t===1){metal('clank');metal('creak');p=from;return res()}}else{p=from+(to-from)*ez(t,m);set(p);if(t===1)return res()}requestAnimationFrame(f)};requestAnimationFrame(f)})}
