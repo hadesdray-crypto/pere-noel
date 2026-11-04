@@ -44,7 +44,7 @@ public class VoskPlugin extends Plugin {
         for (String s : list) copyDir(am, src + "/" + s, new File(dst, s));
     }
 
-    private synchronized Model load() throws Exception {
+    private synchronized Model chargerModele() throws Exception {
         if (model != null) return model;
         File base = new File(getContext().getFilesDir(), "vosk-fr");
         File ok = new File(base, ".ok");
@@ -66,7 +66,7 @@ public class VoskPlugin extends Plugin {
     @PluginMethod
     public void ready(final PluginCall call) {
         new Thread(() -> {
-            try { load(); JSObject r = new JSObject(); r.put("ok", true); call.resolve(r); }
+            try { chargerModele(); JSObject r = new JSObject(); r.put("ok", true); call.resolve(r); }
             catch (Throwable e) { call.reject("model: " + e); }
         }).start();
     }
@@ -87,7 +87,7 @@ public class VoskPlugin extends Plugin {
         new Thread(() -> {
             AudioRecord rec = null; Recognizer rz = null;
             try {
-                Model m = load();
+                Model m = chargerModele();
                 String g = "yn".equals(kind) ? YN : "age".equals(kind) ? AGE : null;
                 rz = g != null ? new Recognizer(m, 16000.0f, g) : new Recognizer(m, 16000.0f);
                 int min = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
