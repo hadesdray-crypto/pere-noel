@@ -1,7 +1,8 @@
 {
- "version": "4.4",
+ "version": "4.5",
  "date": "4 novembre 2026",
  "notes": [
+  "Nouveau moteur d'écoute dans l'application (sans Internet) : il alterne avec celui du téléphone pour mieux comprendre oui, non, l'âge et le prénom",
   "Écoute cumulée : le Père Noël recoupe jusqu'à 3 essais (oui, non, prénom, âge) pour comprendre même dans le bruit, sans te faire répéter 20 fois",
   "Le volet descend jusqu'en bas de l'écran (plus d'encart marron vide) et remonte avec peine : à-coups, grincements, étincelles",
   "Derrière le volet, le technicien et les lutins s'affairent ; 3 gags différents à chaque ouverture, avec le Père Noël robot"

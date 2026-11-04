@@ -49,6 +49,26 @@ jobs:
           echo "Modules du téléphone inclus :"; cat android/app/src/main/assets/capacitor.plugins.json
           grep -q TextToSpeech android/app/src/main/assets/capacitor.plugins.json
           grep -q SpeechRecognition android/app/src/main/assets/capacitor.plugins.json
+      - name: Moteur de reconnaissance vocale (hors connexion)
+        run: |
+          D=android/app/src/main/java/app/perenoel/veutsavoir
+          test -d "$D" || { echo "::error::dossier Java introuvable"; find android/app/src -name MainActivity.java; exit 1; }
+          cp android-ressources/native/VoskPlugin.java android-ressources/native/MainActivity.java "$D/"
+          mkdir -p /tmp/vm android/app/src/main/assets
+          curl -fL --retry 5 --retry-delay 5 -o /tmp/vm/m.zip https://alphacephei.com/vosk/models/vosk-model-small-fr-0.22.zip
+          unzip -q /tmp/vm/m.zip -d /tmp/vm
+          mv /tmp/vm/vosk-model-small-fr-0.22 android/app/src/main/assets/vosk-fr
+          ls android/app/src/main/assets/vosk-fr
+          cat >> android/app/build.gradle <<'EOG'
+
+          dependencies {
+              implementation 'com.alphacephei:vosk-android:0.3.47'
+              implementation 'net.java.dev.jna:jna:5.13.0@aar'
+          }
+          android {
+              defaultConfig { ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' } }
+          }
+          EOG
       - name: Compiler
         run: cd android && ./gradlew assembleRelease --no-daemon -q
       - name: Signer
