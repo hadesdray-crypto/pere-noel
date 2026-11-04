@@ -7,6 +7,8 @@ def slug(n):
     return re.sub(r'^-|-$', '', re.sub(r'[^a-z0-9]+', '-', n))
 SKIP = {'Un iPhone','Un smartphone Samsung Galaxy','Une Nintendo Switch','Une PlayStation 5','Une Xbox','Des écouteurs sans fil','Une montre connectée','Un pistolet Nerf','Une peluche Pikachu','Une poupée Elsa qui chante','Un costume de Spider-Man',"Une Pat'Patrouille : la tour de contrôle",'Un jeu de société en famille'}  # personnages / marques reconnaissables : pas d'image (risque de droits)
 P = json.load(open('tools/planches.json')); D = sys.argv[1]; out = {}
+_h0 = open('app/index.html', encoding='utf-8').read(); _m0 = re.search(r'const TOYPICS=(\{.*?\});\nfunction toySlug', _h0, re.S)
+if _m0: out = json.loads(_m0.group(1))  # on garde les images déjà intégrées
 for k, names in enumerate(P, 1):
     try: im = Image.open(f'{D}/p{k}.png').convert('RGB')
     except Exception: print('planche absente', k); continue
