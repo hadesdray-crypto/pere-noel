@@ -1,12 +1,10 @@
 {
- "version": "4.10",
+ "version": "4.11",
  "date": "4 novembre 2026",
  "notes": [
-  "La scène du robot est bien plus visible ; l'aide « Oui, ou non ? » ne revient plus après un cadeau accepté",
-  "Avant d'entrer, la mise en place se passe derrière le volet : lutins qui s'affairent, lumière qui s'allume, tests de voix du Père Noël",
-  "Scène d'ouverture « pièce manquante » à la place des guirlandes",
-  "La Mère Noël ne coupe plus jamais la parole",
-  "Un seul signal « À toi ! » (voix puis voyant rouge) et explication au début sur l'écoute",
-  "Bouton « Je me suis trompé » pour revenir à la question précédente"
+  "Recherche de cadeau beaucoup plus fine : mots de tous les jours, fautes, mots mal entendus, catégories, photos",
+  "Bouton « Je sais déjà ce que je veux » et jouet cité à la voix reconnu tout de suite",
+  "« Presque ! » ou « Pas du tout » pour guider le Père Noël",
+  "Vraies images pour une cinquantaine de jouets"
  ]
 }

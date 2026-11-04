@@ -5,6 +5,7 @@ from PIL import Image, ImageChops
 def slug(n):
     n = unicodedata.normalize('NFD', n.lower()); n = ''.join(c for c in n if unicodedata.category(c) != 'Mn')
     return re.sub(r'^-|-$', '', re.sub(r'[^a-z0-9]+', '-', n))
+SKIP = {'Un iPhone','Un smartphone Samsung Galaxy','Une Nintendo Switch','Une PlayStation 5','Une Xbox','Des écouteurs sans fil','Une montre connectée','Un pistolet Nerf','Une peluche Pikachu','Une poupée Elsa qui chante','Un costume de Spider-Man',"Une Pat'Patrouille : la tour de contrôle",'Un jeu de société en famille'}  # personnages / marques reconnaissables : pas d'image (risque de droits)
 P = json.load(open('tools/planches.json')); D = sys.argv[1]; out = {}
 for k, names in enumerate(P, 1):
     try: im = Image.open(f'{D}/p{k}.png').convert('RGB')
@@ -12,6 +13,7 @@ for k, names in enumerate(P, 1):
     W, H = im.size; cw, ch = W / 5, H / 4
     for n, name in enumerate(names):
         c, r = n % 5, n // 5
+        if name in SKIP: continue
         cell = im.crop((int(c*cw)+4, int(r*ch)+4, int((c+1)*cw)-4, int((r+1)*ch)-4))
         bg = Image.new('RGB', cell.size, cell.getpixel((3, 3)))
         diff = ImageChops.difference(cell, bg).convert('L').point(lambda v: 255 if v > 28 else 0)
