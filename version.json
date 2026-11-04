@@ -1,11 +1,13 @@
 {
- "version": "4.2",
- "date": "3 novembre 2026",
+ "version": "4.3",
+ "date": "4 novembre 2026",
  "notes": [
-  "Nouvelle ouverture : un vieux volet métallique cuivré cache l'atelier ; on peut le soulever du doigt, il grince, puis il s'ouvre en accélérant et se range",
-  "Gag du technicien : on l'entend visser le Père Noël derrière le volet ; surpris, il s'enfuit, le Père Noël robot se trahit, Mère Noël passe lui dire coucou",
-  "Introduction plus courte, option « Ouverture animée » dans les Réglages",
-  "Correction importante : les réactions des lutins à chaque réponse fonctionnent à nouveau",
-  "Moins de bulles de texte quand la voix marche : elles s'affichent seulement si le Père Noël n'est pas entendu"
+  "Écoute améliorée : le Père Noël dit « À toi ! », la lumière rouge s'allume tout de suite et tous les personnages se taisent tant qu'il écoute",
+  "L'âge « huit ans » est mieux compris ; l'âge se choisit en deux temps (puce puis bouton « C'est bon »)",
+  "Protection contre les touches involontaires : seuls les boutons réagissent, délai après chaque écran, double-tap et paume ignorés, boutons du haut en appui long",
+  "L'écran reste allumé pendant l'utilisation",
+  "Catalogue élargi : téléphones, consoles, tablettes, écouteurs, oreillers, couettes, chaussures, vêtements, sacs, beauté, sport… avec recherche par mots dans « Autre chose »",
+  "Encadré du volet réduit",
+  "Réglages : « Personnages tactiles » et correction du réglage « Parler plus vite »"
  ]
 }
