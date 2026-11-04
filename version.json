@@ -1,13 +1,9 @@
 {
- "version": "4.3",
+ "version": "4.4",
  "date": "4 novembre 2026",
  "notes": [
-  "Écoute améliorée : le Père Noël dit « À toi ! », la lumière rouge s'allume tout de suite et tous les personnages se taisent tant qu'il écoute",
-  "L'âge « huit ans » est mieux compris ; l'âge se choisit en deux temps (puce puis bouton « C'est bon »)",
-  "Protection contre les touches involontaires : seuls les boutons réagissent, délai après chaque écran, double-tap et paume ignorés, boutons du haut en appui long",
-  "L'écran reste allumé pendant l'utilisation",
-  "Catalogue élargi : téléphones, consoles, tablettes, écouteurs, oreillers, couettes, chaussures, vêtements, sacs, beauté, sport… avec recherche par mots dans « Autre chose »",
-  "Encadré du volet réduit",
-  "Réglages : « Personnages tactiles » et correction du réglage « Parler plus vite »"
+  "Écoute cumulée : le Père Noël recoupe jusqu'à 3 essais (oui, non, prénom, âge) pour comprendre même dans le bruit, sans te faire répéter 20 fois",
+  "Le volet descend jusqu'en bas de l'écran (plus d'encart marron vide) et remonte avec peine : à-coups, grincements, étincelles",
+  "Derrière le volet, le technicien et les lutins s'affairent ; 3 gags différents à chaque ouverture, avec le Père Noël robot"
  ]
 }
